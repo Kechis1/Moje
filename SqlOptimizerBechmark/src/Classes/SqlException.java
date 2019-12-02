@@ -1,39 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿package Classes;
 
-namespace SqlOptimizerBechmark.Classes
+public class SqlException extends Exception
 {
-    public class SqlException : Exception
+    private int code;
+    private int startCharIndex;
+    private int endCharIndex;
+
+    public int Code()
     {
-        private int code;
-        private int startCharIndex;
-        private int endCharIndex;
-
-        public int Code
-        {
-            get { return code; }
-        }
-
-        public int StartCharIndex
-        {
-            get { return startCharIndex; }
-        }
-
-        public int EndCharIndex
-        {
-            get { return endCharIndex; }
-        }
-
-        public SqlException(int code, string message, int startCharIndex, int endCharIndex)
-            : base(message)
-        {
-            this.code = code;
-            this.startCharIndex = startCharIndex;
-            this.endCharIndex = endCharIndex;
-        }
+        return code;
     }
 
+    public int StartCharIndex()
+    {
+        return startCharIndex;
+    }
+
+    public int EndCharIndex()
+    {
+        return endCharIndex;
+    }
+
+    public SqlException(int code, String message, int startCharIndex, int endCharIndex)
+    {
+        super(message);
+        this.code = code;
+        this.startCharIndex = startCharIndex;
+        this.endCharIndex = endCharIndex;
+    }
 }
+

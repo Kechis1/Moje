@@ -3,8 +3,7 @@
 public abstract class BenchmarkObject implements IBenchmarkObject {
     public IBenchmarkObject ParentObject;
 
-    public virtual Benchmark
-    Owner =>ParentObject.Owner;
+    public virtual Benchmark Owner =>ParentObject.Owner;
 
     public virtual IEnumerable<IBenchmarkObject>ChildObjects =>Enumerable.Empty<IBenchmarkObject>();
 

@@ -4,7 +4,9 @@
         private BenchmarkObject parentObject;
         private int annotationId;
 
-        public override IBenchmarkObject ParentObject => parentObject;
+        public IBenchmarkObject ParentObject() {
+            return parentObject;
+        }
 
         public int AnnotationId
         {

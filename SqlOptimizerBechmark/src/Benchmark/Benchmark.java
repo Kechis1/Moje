@@ -2,9 +2,9 @@
 
     public class Benchmark extends BenchmarkObject implements INamedBenchmarkObject, IDescribedBenchmarkObject
     {
-        private String name = string.Empty;
-        private String author = string.Empty;
-        private String description = string.Empty;
+        private String name = "";
+        private String author = "";
+        private String description = "";
         private Script initScript;
         private Script cleanUpScript;
         private ObservableCollection<TestGroup> testGroups = new ObservableCollection<TestGroup>();
@@ -15,11 +15,15 @@
 
         private int lastId = 0;
 
-        public override Benchmark Owner => this;
+        public Benchmark Owner() {
+            return this;
+        }
 
-        public override IBenchmarkObject ParentObject => null;
+        public IBenchmarkObject ParentObject() {
+            return null;
+        }
 
-        public override IEnumerable<IBenchmarkObject> ChildObjects
+        public IEnumerable<IBenchmarkObject> ChildObjects
         {
             get
             {
@@ -41,16 +45,17 @@
             }
         }
 
-        public string Name
+        public String Name()
         {
-            get => name;
-            set
+            return name;
+        }
+
+        public String Name(String value)
+        {
+            if (name != value)
             {
-                if (name != value)
-                {
-                    name = value;
-                    OnPropertyChanged("Name");
-                }
+                name = value;
+                OnPropertyChanged("Name");
             }
         }
 
@@ -123,7 +128,7 @@
             testRunSettings = new TestRunSettings(this);
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteString("name", name);
             serializer.WriteString("author", author);
@@ -138,7 +143,7 @@
             serializer.WriteInt("last_id", lastId);
         }
 
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             serializer.ReadString("name", ref name);
             serializer.ReadString("author", ref author);
@@ -193,7 +198,7 @@
             return ++lastId;
         }
 
-        public override DbTableInfo GetTableInfo()
+        public DbTableInfo GetTableInfo()
         {
             DbTableInfo ret = new DbTableInfo("Benchmark");
 
