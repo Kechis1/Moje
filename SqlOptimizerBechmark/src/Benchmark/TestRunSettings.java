@@ -1,160 +1,153 @@
 ﻿package Benchmark;
 
-public class TestRunSettings extends BenchmarkObject
-        {
-private Benchmark benchmark;
+public class TestRunSettings extends BenchmarkObject {
+    private Benchmark benchmark;
 
-public override IBenchmarkObject ParentObject=>benchmark;
+    @Override
+    public IBenchmarkObject ParentObject() {
+        return benchmark;
+    }
 
-private bool runInitScript=true;
-private bool runCleanUpScript=true;
-private bool checkResultSizes=true;
-private bool compareResults=true;
-private ObservableCollection<SelectedAnnotation> ignoreAnnotations=new ObservableCollection<SelectedAnnotation>();
-private int queryRuns=1;
-private int testLoops=1;
-private bool closeOnComplete=false;
+    private boolean runInitScript = true;
+    private boolean runCleanUpScript = true;
+    private boolean checkResultSizes = true;
+    private boolean compareResults = true;
+    private ObservableCollection<SelectedAnnotation> ignoreAnnotations = new ObservableCollection<SelectedAnnotation>();
+    private int queryRuns = 1;
+    private int testLoops = 1;
+    private boolean closeOnComplete = false;
 
-public bool RunInitScript
-        {
-        get=>runInitScript;
-        set
-        {
-        if(runInitScript!=value)
-        {
-        runInitScript=value;
-        OnPropertyChanged("RunInitScript");
-        }
-        }
-        }
+    public boolean RunInitScript() {
+        return runInitScript;
+    }
 
-public bool RunCleanUpScript
-        {
-        get=>runCleanUpScript;
-        set
-        {
-        if(runCleanUpScript!=value)
-        {
-        runCleanUpScript=value;
-        OnPropertyChanged("RunCleanUpScript");
+    public void RunInitScript(boolean value) {
+        if (runInitScript != value) {
+            runInitScript = value;
+            OnPropertyChanged("RunInitScript");
         }
-        }
-        }
+    }
 
-public bool CheckResultSizes
-        {
-        get=>checkResultSizes;
-        set
-        {
-        if(checkResultSizes!=value)
-        {
-        checkResultSizes=value;
-        OnPropertyChanged("CheckResultSizes");
-        }
-        }
-        }
+    public boolean RunCleanUpScript() {
+        return runCleanUpScript;
+    }
 
-public bool CompareResults
-        {
-        get=>compareResults;
-        set
-        {
-        if(compareResults!=value)
-        {
-        compareResults=value;
-        OnPropertyChanged("CompareResults");
+    public void RunCleanUpScript(boolean value) {
+        if (runCleanUpScript != value) {
+            runCleanUpScript = value;
+            OnPropertyChanged("RunCleanUpScript");
         }
-        }
-        }
+    }
 
-public int QueryRuns
-        {
-        get=>queryRuns;
-        set
-        {
-        if(queryRuns!=value)
-        {
-        queryRuns=value;
-        OnPropertyChanged("QueryRuns");
-        }
-        }
-        }
+    public boolean CheckResultSizes() {
+        return checkResultSizes;
+    }
 
-public int TestLoops
-        {
-        get=>testLoops;
-        set
-        {
-        if(testLoops!=value)
-        {
-        testLoops=value;
-        OnPropertyChanged("TestLoops");
+    public void CheckResultSizes(boolean value) {
+        if (checkResultSizes != value) {
+            checkResultSizes = value;
+            OnPropertyChanged("CheckResultSizes");
         }
-        }
-        }
+    }
 
-public bool CloseOnComplete
-        {
-        get=>closeOnComplete;
-        set
-        {
-        if(closeOnComplete!=value)
-        {
-        closeOnComplete=value;
-        OnPropertyChanged("CloseOnComplete");
-        }
-        }
-        }
+    public boolean CompareResults() {
+        return compareResults;
+    }
 
-public ObservableCollection<SelectedAnnotation> IgnoreAnnotations
-        {
-        get=>ignoreAnnotations;
+    public void CompareResults(boolean value) {
+        if (compareResults != value) {
+            compareResults = value;
+            OnPropertyChanged("CompareResults");
         }
+    }
 
-public TestRunSettings(Benchmark benchmark)
-        {
-        this.benchmark=benchmark;
-        }
+    public int QueryRuns()
+    {
+        return queryRuns; 
+    }
 
-public override void LoadFromXml(BenchmarkXmlSerializer serializer)
-        {
-        serializer.ReadBool("run_init_script",ref runInitScript);
-        serializer.ReadBool("run_clean_up_script",ref runCleanUpScript);
-        serializer.ReadBool("check_result_sizes",ref checkResultSizes);
-        serializer.ReadBool("compare_results",ref compareResults);
-        serializer.ReadInt("query_runs",ref queryRuns);
-        serializer.ReadInt("test_loops",ref testLoops);
-        serializer.ReadBool("close_on_complete",ref closeOnComplete);
-        serializer.ReadCollection<SelectedAnnotation>("ignore_annotations","ignore_annotation",ignoreAnnotations,
-        delegate(){return new SelectedAnnotation(this);});
-        }
+    public void QueryRuns(int value)
+    {
+            if (queryRuns != value) {
+                    queryRuns = value;
+                    OnPropertyChanged("QueryRuns");
+            }
+    }
 
-public override void SaveToXml(BenchmarkXmlSerializer serializer)
-        {
-        serializer.WriteBool("run_init_script",runInitScript);
-        serializer.WriteBool("run_clean_up_script",runCleanUpScript);
-        serializer.WriteBool("check_result_sizes",checkResultSizes);
-        serializer.WriteBool("compare_results",compareResults);
-        serializer.WriteInt("query_runs",queryRuns);
-        serializer.WriteInt("test_loops",testLoops);
-        serializer.WriteBool("close_on_complete",closeOnComplete);
-        serializer.WriteCollection<SelectedAnnotation>("ignore_annotations","ignore_annotation",ignoreAnnotations);
-        }
+    public int TestLoops()
+    {
+        return testLoops; 
+    }
 
-public override DbTableInfo GetTableInfo()
-        {
-        DbTableInfo ret=base.GetTableInfo();
+    public void TestLoops(int value)
+    {
+            if (testLoops != value) {
+                    testLoops = value;
+                    OnPropertyChanged("TestLoops");
+            }
+    }
 
-        ret.TableName="TestRunSettings";
+    public boolean CloseOnComplete() {
+        return closeOnComplete; 
+    }
 
-        ret.DbColumns.Add(new DbColumnInfo("RunInitScript","run_init_script",System.Data.DbType.Boolean));
-        ret.DbColumns.Add(new DbColumnInfo("RunCleanUpScript","run_clean_up_script",System.Data.DbType.Boolean));
-        ret.DbColumns.Add(new DbColumnInfo("CheckResultSizes","check_result_sizes",System.Data.DbType.Boolean));
-        ret.DbColumns.Add(new DbColumnInfo("CompareResults","compare_results",System.Data.DbType.Boolean));
-        ret.DbColumns.Add(new DbColumnInfo("QueryRuns","query_runs",System.Data.DbType.Int32));
-        ret.DbColumns.Add(new DbColumnInfo("TestLoops","test_loops",System.Data.DbType.Int32));
-        ret.DbColumns.Add(new DbColumnInfo("CloseOnComplete","close_on_complete",System.Data.DbType.Boolean));
+    public void CloseOnComplete(boolean value) {
+            if (closeOnComplete != value) {
+                    closeOnComplete = value;
+                    OnPropertyChanged("CloseOnComplete");
+            }
+    }
+
+    public ObservableCollection<SelectedAnnotation> IgnoreAnnotations()
+    {
+        return ignoreAnnotations;
+    }
+
+    public TestRunSettings(Benchmark benchmark) {
+        this.benchmark = benchmark;
+    }
+
+    @Override
+    public void LoadFromXml(BenchmarkXmlSerializer serializer) {
+        serializer.ReadBool("run_init_script", ref runInitScript);
+        serializer.ReadBool("run_clean_up_script", ref runCleanUpScript);
+        serializer.ReadBool("check_result_sizes", ref checkResultSizes);
+        serializer.ReadBool("compare_results", ref compareResults);
+        serializer.ReadInt("query_runs", ref queryRuns);
+        serializer.ReadInt("test_loops", ref testLoops);
+        serializer.ReadBool("close_on_complete", ref closeOnComplete);
+        serializer.ReadCollection<SelectedAnnotation> ("ignore_annotations", "ignore_annotation", ignoreAnnotations,
+                delegate() {
+            return new SelectedAnnotation(this);
+        });
+    }
+
+    @Override
+    public void SaveToXml(BenchmarkXmlSerializer serializer) {
+        serializer.WriteBool("run_init_script", runInitScript);
+        serializer.WriteBool("run_clean_up_script", runCleanUpScript);
+        serializer.WriteBool("check_result_sizes", checkResultSizes);
+        serializer.WriteBool("compare_results", compareResults);
+        serializer.WriteInt("query_runs", queryRuns);
+        serializer.WriteInt("test_loops", testLoops);
+        serializer.WriteBool("close_on_complete", closeOnComplete);
+        serializer.WriteCollection<SelectedAnnotation> ("ignore_annotations", "ignore_annotation", ignoreAnnotations);
+    }
+
+    @Override
+    public DbTableInfo GetTableInfo() {
+        DbTableInfo ret = super.GetTableInfo();
+
+        ret.TableName("TestRunSettings");
+
+        ret.DbColumns().add(new DbColumnInfo("RunInitScript", "run_init_script", System.Data.DbType.Boolean));
+        ret.DbColumns().add(new DbColumnInfo("RunCleanUpScript", "run_clean_up_script", System.Data.DbType.Boolean));
+        ret.DbColumns().add(new DbColumnInfo("CheckResultSizes", "check_result_sizes", System.Data.DbType.Boolean));
+        ret.DbColumns().add(new DbColumnInfo("CompareResults", "compare_results", System.Data.DbType.Boolean));
+        ret.DbColumns().add(new DbColumnInfo("QueryRuns", "query_runs", System.Data.DbType.Int32));
+        ret.DbColumns().add(new DbColumnInfo("TestLoops", "test_loops", System.Data.DbType.Int32));
+        ret.DbColumns().add(new DbColumnInfo("CloseOnComplete", "close_on_complete", System.Data.DbType.Boolean));
 
         return ret;
-        }
-        }
+    }
+}

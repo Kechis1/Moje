@@ -1,105 +1,112 @@
 ﻿package Benchmark;
 
 public class DbColumnInfo {
-    private string property;
-    private string dbColumn;
-    private bool dbPrimaryKey;
-    private bool dbAutoIncrement;
-    private bool dbForeignKey;
+    private String property;
+    private String dbColumn;
+    private boolean dbPrimaryKey;
+    private boolean dbAutoIncrement;
+    private boolean dbForeignKey;
     private DbType dbType;
     private int dbSize;
-    private string referencedTableName;
-    private string referencedColumn;
+    private String referencedTableName;
+    private String referencedColumn;
 
-    /// <summary>
-    /// Gets or sets a name of a class property.
-    /// </summary>
-    public string Property
-
+    /**
+     * Gets or sets a name of a class property.
+     */
+    public String Property()
     {
-        get =>property;
-        set
-        {
-            property = value;
-            if (dbColumn == null) {
-                dbColumn = property;
-            }
+        return property; 
+    }
+    
+    public void Property(String value)
+    {
+        property = value;
+        if (dbColumn == null) {
+            dbColumn = property;
         }
     }
 
-    /// <summary>
-    /// Gets or sets the database attribute.
-    /// </summary>
-    public string DbColumn
-
+    /**
+     * Gets or sets the database attribute.
+     */
+    public String DbColumn()
     {
-        get =>dbColumn;
-        set =>dbColumn = value;
+        return dbColumn;
+    }
+    
+    public void DbColumn(String value)
+    {
+        dbColumn = value;
     }
 
-    /// <summary>
-    /// Gets or sets the database data type.
-    /// </summary>
-    public DbType DbType
-
-    {
-        get =>dbType;
-        set =>dbType = value;
+    /**
+     * Gets or sets the database data type.
+     */
+    public DbType DbType() {
+        return dbType;
     }
 
-    /// <summary>
-    /// Gets or sets a size of the attribute in the database.
-    /// </summary>
-    public int DbSize
-
-    {
-        get =>dbSize;
-        set =>dbSize = value;
+    public DbType DbType(DbType value) {
+        dbType = value;
     }
 
-    /// <summary>
-    /// Gets or sests whether the column is a primary key.
-    /// </summary>
-    public bool DbPrimaryKey
-
-    {
-        get =>dbPrimaryKey;
-        set =>dbPrimaryKey = value;
+    /**
+     * Gets or sets a size of the attribute in the database.
+     */
+    public int DbSize() {
+        return dbSize;
     }
 
-    public bool DbAutoIncrement
+    public void DbSize(int value) {
+        dbSize = value;
+    }
 
-    {
-        get =>dbAutoIncrement;
-        set =>dbAutoIncrement = value;
+    /**
+     * Gets or sests whether the column is a primary key.
+    */
+    public boolean DbPrimaryKey() {
+        return dbPrimaryKey;
+    }
+
+    public void DbPrimaryKey(boolean value) {
+        dbPrimaryKey = value;
+    }
+
+    public boolean DbAutoIncrement() {
+        return dbAutoIncrement;
+    }
+
+    public void DbAutoIncrement(boolean value) {
+        dbAutoIncrement = value;
     }
 
     public DbColumnInfo() {
 
     }
 
-    public DbColumnInfo(string property, string dbColumn, DbType dbType, int dbSize) {
+    public DbColumnInfo(String property, String dbColumn, DbType dbType, int dbSize) {
         this.property = property;
         this.dbColumn = dbColumn;
         this.dbType = dbType;
         this.dbSize = dbSize;
     }
 
-    public DbColumnInfo(string property, string dbColumn, DbType dbType, bool dbPrimaryKey) {
+    public DbColumnInfo(String property, String dbColumn, DbType dbType, boolean dbPrimaryKey) {
         this.property = property;
         this.dbColumn = dbColumn;
         this.dbType = dbType;
         this.dbPrimaryKey = dbPrimaryKey;
     }
 
-    public DbColumnInfo(string dbColumn, bool dbPrimaryKey, bool dbAutoIncrement) {
+    public DbColumnInfo(String dbColumn, boolean dbPrimaryKey, boolean dbAutoIncrement) {
         this.dbColumn = dbColumn;
         this.dbType = DbType.Int32;
         this.dbPrimaryKey = dbPrimaryKey;
         this.dbAutoIncrement = dbAutoIncrement;
     }
 
-    public DbColumnInfo(string property, string dbColumn, DbType dbType, bool dbForeignKey, string referencedTableName, string referencedColumn) {
+    public DbColumnInfo(String property, String dbColumn, DbType dbType, boolean dbForeignKey, String referencedTableName, String referencedColumn) {
         this.property = property;
         this.dbColumn = dbColumn;
         this.dbType = dbType;
@@ -108,7 +115,7 @@ public class DbColumnInfo {
         this.referencedColumn = referencedColumn;
     }
 
-    public DbColumnInfo(string property, string dbColumn, DbType dbType, bool dbPrimaryKey, bool dbForeignKey, string referencedTableName, string referencedColumn) {
+    public DbColumnInfo(String property, String dbColumn, DbType dbType, boolean dbPrimaryKey, boolean dbForeignKey, String referencedTableName, String referencedColumn) {
         this.property = property;
         this.dbColumn = dbColumn;
         this.dbType = dbType;
@@ -118,7 +125,7 @@ public class DbColumnInfo {
         this.referencedColumn = referencedColumn;
     }
 
-    public DbColumnInfo(string property, string dbColumn, DbType dbType) {
+    public DbColumnInfo(String property, String dbColumn, DbType dbType) {
         this.property = property;
         this.dbColumn = dbColumn;
         this.dbType = dbType;

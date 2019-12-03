@@ -3,6 +3,7 @@
 import javax.swing.text.html.HTMLDocument;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Stack;
 
 public abstract class BenchmarkObject implements IBenchmarkObject {
     public IBenchmarkObject ParentObject;
@@ -51,17 +52,17 @@ public abstract class BenchmarkObject implements IBenchmarkObject {
         }
     }
 
-    public virtual bool Contains(IBenchmarkObject benchmarkObject) {
+    public boolean Contains(IBenchmarkObject benchmarkObject) {
         Stack<IBenchmarkObject> stack = new Stack<IBenchmarkObject>();
-        stack.Push(this);
-        while (stack.Count > 0) {
-            IBenchmarkObject obj = stack.Pop();
+        stack.push(this);
+        while (stack.size() > 0) {
+            IBenchmarkObject obj = stack.pop();
             if (obj == benchmarkObject) {
                 return true;
             }
-            foreach(IBenchmarkObject child in obj.ChildObjects)
+            for (IBenchmarkObject child : obj.ChildObjects)
             {
-                stack.Push(child);
+                stack.push(child);
             }
         }
         return false;

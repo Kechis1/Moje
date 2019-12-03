@@ -4,37 +4,41 @@ public class DbDependentTableInfo {
     private String property;
     private String dbTableName;
     private String dbFkColumn;
-    private bool oneToOne;
+    private boolean oneToOne;
 
-    public String Property
-
-    {
-        get =>property;
-        set =>property = value;
+    public String Property() {
+        return property;
     }
 
-    public String DbTableName
-
-    {
-        get =>dbTableName;
-        set =>dbTableName = value;
+    public void Property(String value) {
+        property = value;
     }
 
-    public String DbFkColumn
-
-    {
-        get =>dbFkColumn;
-        set =>dbFkColumn = value;
+    public String DbTableName() {
+        return dbTableName;
     }
 
-    public bool OneToOne
-
-    {
-        get =>oneToOne;
-        set =>oneToOne = value;
+    public void DbTableName(String value) {
+        dbTableName = value;
     }
 
-    public DbDependentTableInfo(String property, String dbTableName, String dbFkColumn, bool oneToOne =false) {
+    public String DbFkColumn() {
+        return dbFkColumn;
+    }
+
+    public void DbFkColumn(String value) {
+        dbFkColumn = value;
+    }
+
+    public boolean OneToOne() {
+        return oneToOne;
+    }
+
+    public void OneToOne(boolean value) {
+        oneToOne = value;
+    }
+
+    public DbDependentTableInfo(String property, String dbTableName, String dbFkColumn, boolean oneToOne = false) {
         this.property = property;
         this.dbTableName = dbTableName;
         this.dbFkColumn = dbFkColumn;

@@ -1,62 +1,66 @@
 ﻿package Benchmark;
     public class SpecificStatement extends Statement
     {
-        private string providerName = string.Empty;
-        private bool notSupported = false;
+        private String providerName = "";
+        private boolean notSupported = false;
 
-        public string ProviderName
+        public String ProviderName()
         {
-            get => providerName;
-            set
+            return providerName;
+        }
+        public void ProviderName(String value)
+        {
+            if (value != providerName)
             {
-                if (value != providerName)
-                {
-                    providerName = value;
-                    OnPropertyChanged("ProviderName");
-                }
+                providerName = value;
+                OnPropertyChanged("ProviderName");
             }
         }
 
-        public bool NotSupported
+        public boolean NotSupported()
         {
-            get => notSupported;
-            set
+            return notSupported;
+        }
+
+        public void NotSupported(boolean value)
+        {
+            if (value != notSupported)
             {
-                if (value != notSupported)
-                {
-                    notSupported = value;
-                    OnPropertyChanged("NotSupported");
-                }
+                notSupported = value;
+                OnPropertyChanged("NotSupported");
             }
         }
 
         public SpecificStatement(BenchmarkObject parentObject) 
-            : base(parentObject)
+            : super(parentObject)
         {
         }
 
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             serializer.ReadString("provider_name", ref providerName);
             serializer.ReadBool("not_supported", ref notSupported);
-            base.LoadFromXml(serializer);
+            super.LoadFromXml(serializer);
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteString("provider_name", providerName);
             serializer.WriteBool("not_supported", notSupported);
-            base.SaveToXml(serializer);
+            super.SaveToXml(serializer);
         }
 
-        public override DbTableInfo GetTableInfo()
+        @Override
+        public DbTableInfo GetTableInfo()
         {
-            DbTableInfo ret = base.GetTableInfo();
+            DbTableInfo ret = super.GetTableInfo();
 
-            ret.TableName = "SpecificStatement";
+            ret.TableName("SpecificStatement");
 
-            ret.DbColumns.Add(new DbColumnInfo("ProviderName", "provider_name", System.Data.DbType.String, 50));
-            ret.DbColumns.Add(new DbColumnInfo("NotSupported", "not_supported", System.Data.DbType.Boolean));
+            ret.DbColumns().add(new DbColumnInfo("ProviderName", "provider_name", System.Data.DbType.String, 50));
+            ret.DbColumns().add(new DbColumnInfo("NotSupported", "not_supported", System.Data.DbType.Boolean));
 
             return ret;
         }

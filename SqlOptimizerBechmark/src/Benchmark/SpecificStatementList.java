@@ -1,47 +1,43 @@
 ﻿package Benchmark;
 
-    public class SpecificStatementList extends StatementList
-    {
-        private string providerName = string.Empty;
+public class SpecificStatementList extends StatementList {
+    private String providerName = "";
 
-        public string ProviderName
-        {
-            get => providerName;
-            set
-            {
-                if (value != providerName)
-                {
-                    providerName = value;
-                    OnPropertyChanged("ProviderName");
-                }
-            }
-        }
+    public String ProviderName() {
+        return providerName;
+    }
 
-        public SpecificStatementList(Script script)
-            : base(script)
-        {
-        }
-
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
-        {
-            serializer.WriteString("provider_name", providerName);
-            base.SaveToXml(serializer);
-        }
-
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
-        {
-            serializer.ReadString("provider_name", ref providerName);
-            base.LoadFromXml(serializer);
-        }
-
-        public override DbTableInfo GetTableInfo()
-        {
-            DbTableInfo ret = base.GetTableInfo();
-
-            ret.TableName = "SpecificStatementList";
-
-            ret.DbColumns.Add(new DbColumnInfo("ProviderName", "provider_name", System.Data.DbType.String, 50));
-
-            return ret;
+    public void ProviderName(String value) {
+        if (value != providerName) {
+            providerName = value;
+            OnPropertyChanged("ProviderName");
         }
     }
+
+    public SpecificStatementList(Script script): super(script)
+    {
+    }
+
+    @Override
+    public void SaveToXml(BenchmarkXmlSerializer serializer) {
+        serializer.WriteString("provider_name", providerName);
+        super.SaveToXml(serializer);
+    }
+
+    @Override
+    public void LoadFromXml(BenchmarkXmlSerializer serializer) {
+        serializer.ReadString("provider_name", ref providerName);
+        super.LoadFromXml(serializer);
+    }
+
+    @Override
+    public DbTableInfo GetTableInfo() {
+        DbTableInfo ret = super.GetTableInfo();
+
+        ret.TableName("SpecificStatementList");
+
+        ret.DbColumns().add(new DbColumnInfo("ProviderName", "provider_name", System.Data.DbType.String, 50));
+
+        return ret;
+    }
+}

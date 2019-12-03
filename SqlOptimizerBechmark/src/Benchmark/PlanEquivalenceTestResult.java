@@ -5,107 +5,107 @@
         private int successfullyCompletedVariants = 0;
         private ObservableCollection<QueryVariantResult> queryVariantResults = new ObservableCollection<QueryVariantResult>();
         private ObservableCollection<SelectedAnnotationResult> selectedAnnotationResults = new ObservableCollection<SelectedAnnotationResult>();
-        private bool started = false;
-        private bool completed = false;
-        private string templateNumber = string.Empty;
+        private boolean started = false;
+        private boolean completed = false;
+        private String templateNumber = "";
         
-        public override IEnumerable<IBenchmarkObject> ChildObjects
+        @Override
+        public IEnumerable<IBenchmarkObject> ChildObjects()
         {
-            get
+            for (QueryVariantResult queryVariantResult in queryVariantResults)
             {
-                foreach (QueryVariantResult queryVariantResult in queryVariantResults)
-                {
-                    yield return queryVariantResult;
-                }
+                yield return queryVariantResult;
             }
         }
 
-        public int DistinctQueryPlans
+        public int DistinctQueryPlans()
         {
-            get => distinctQueryPlans;
-            set
+            return distinctQueryPlans;
+        }
+
+        public void DistinctQueryPlans(int value)
+        {
+            if (distinctQueryPlans != value)
             {
-                if (distinctQueryPlans != value)
-                {
-                    distinctQueryPlans = value;
-                    OnPropertyChanged("DistinctQueryPlans");
-                }
+                distinctQueryPlans = value;
+                OnPropertyChanged("DistinctQueryPlans");
             }
         }
 
-        public int SuccessfullyCompletedVariants
-        {
-            get => successfullyCompletedVariants;
-            set
+        public int SuccessfullyCompletedVariants() {
+            return successfullyCompletedVariants;
+        }
+
+        public void SuccessfullyCompletedVariants(int value) {
+            if (successfullyCompletedVariants != value)
             {
-                if (successfullyCompletedVariants != value)
-                {
-                    successfullyCompletedVariants = value;
-                    OnPropertyChanged("SuccessfullyCompletedVariants");
-                }
+                successfullyCompletedVariants = value;
+                OnPropertyChanged("SuccessfullyCompletedVariants");
             }
         }
 
-        public string TemplateNumber
+        public String TemplateNumber()
         {
-            get => templateNumber;
-            set
+            return templateNumber;
+        }
+
+        public void TemplateNumber(String value)
+        {
+            if (templateNumber != value)
             {
-                if (templateNumber != value)
-                {
-                    templateNumber = value;
-                    OnPropertyChanged("TemplateNumber");
-                }
+                templateNumber = value;
+                OnPropertyChanged("TemplateNumber");
             }
         }
 
-        public bool Success
-        {
-            get
+        public boolean Success()
+        { 
+            return completed && distinctQueryPlans == 1 && successfullyCompletedVariants > 1 && String.IsNullOrEmpty(ErrorMessage);
+        }
+
+        public ObservableCollection<QueryVariantResult> QueryVariantResults() {
+            return queryVariantResults;
+        }
+
+        public ObservableCollection<SelectedAnnotationResult> SelectedAnnotationResults() {
+            return selectedAnnotationResults;
+        }
+
+        public boolean Started() {
+            return started;
+        }
+
+        public void Started(boolean value) {
+            if (started != value)
             {
-                return completed && distinctQueryPlans == 1 && successfullyCompletedVariants > 1 && string.IsNullOrEmpty(ErrorMessage);
+                started = value;
+                OnPropertyChanged("Started");
             }
         }
 
-        public ObservableCollection<QueryVariantResult> QueryVariantResults => queryVariantResults;
-
-        public ObservableCollection<SelectedAnnotationResult> SelectedAnnotationResults => selectedAnnotationResults;
-
-        public bool Started
+        public boolean Completed()
         {
-            get => started;
-            set
+            return completed;
+        }
+
+        public void Completed(boolean value)
+        {
+            if (completed != value)
             {
-                if (started != value)
-                {
-                    started = value;
-                    OnPropertyChanged("Started");
-                }
+                completed = value;
+                OnPropertyChanged("Completed");
             }
         }
 
-        public bool Completed
-        {
-            get => completed;
-            set
-            {
-                if (completed != value)
-                {
-                    completed = value;
-                    OnPropertyChanged("Completed");
-                }
-            }
-        }
-
-        public PlanEquivalenceTestResult(TestRun testRun)
-            : base(testRun)
+        public PlanEquivalenceTestResult(TestRun testRun) : super(testRun)
         {
 
         }
 
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
-            base.LoadFromXml(serializer);
+            super.LoadFromXml(serializer);
             serializer.ReadInt("distinct_query_plans", ref distinctQueryPlans);
             serializer.ReadInt("successfully_completed_variants", ref successfullyCompletedVariants);
             serializer.ReadCollection<QueryVariantResult>("query_variant_results", "query_variant_result", queryVariantResults,
@@ -117,9 +117,10 @@
             serializer.ReadString("template_number", ref templateNumber);
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
-            base.SaveToXml(serializer);
+            super.SaveToXml(serializer);
             serializer.WriteInt("distinct_query_plans", distinctQueryPlans);
             serializer.WriteInt("successfully_completed_variants", successfullyCompletedVariants);
             serializer.WriteCollection<QueryVariantResult>("query_variant_results", "query_variant_result", queryVariantResults);
@@ -129,33 +130,34 @@
             serializer.WriteString("template_number", templateNumber);
         }
 
-        public override void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
+        @Override
+        public void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
         {
             if (!completed)
             {
                 return;
             }
 
-            if ((exportOptions & CsvExportOptions.ExportDistinctPlans) > 0)
+            if ((exportOptions & CsvExportOptions.ExportDistinctPlans.getValue()) > 0)
             {
                 TestGroupResult testGroupResult = TestRun.GetTestGroupResult(TestGroupId);
                 ConfigurationResult configurationResult = TestRun.GetConfigurationResult(ConfigurationId);
 
-                string annotationsStr = string.Empty;
-                foreach (int annotationId in selectedAnnotationResults.Select(ar => ar.AnnotationId))
+                String annotationsStr = "";
+                for (int annotationId in selectedAnnotationResults.Select(ar => ar.AnnotationId))
                 {
                     AnnotationResult annotationResult = TestRun.GetAnnotationResult(annotationId);
-                    string annotationStr = annotationResult.AnnotationNumber;
-                    if (!string.IsNullOrEmpty(annotationsStr))
+                    String annotationStr = annotationResult.AnnotationNumber;
+                    if (!String.IsNullOrEmpty(annotationsStr))
                     {
                         annotationsStr += ",";
                     }
                     annotationsStr += annotationStr;
                 }
 
-                string code = string.Format("{0}-{1}-{2}", testGroupResult.TestGroupNumber,
+                String code = String.Format("{0}-{1}-{2}", testGroupResult.TestGroupNumber,
                     configurationResult.ConfigurationNumber, this.TestNumber);
-                if (!string.IsNullOrEmpty(templateNumber))
+                if (!String.IsNullOrEmpty(templateNumber))
                 {
                     code += "/" + templateNumber;
                 }
@@ -172,27 +174,28 @@
 
             if ((exportOptions & CsvExportOptions.ExportQueryVariants) > 0)
             {
-                foreach (QueryVariantResult variantResult in queryVariantResults)
+                for (QueryVariantResult variantResult : queryVariantResults)
                 {
                     variantResult.ExportToCsv(writer, exportOptions);
                 }
             }
         }
 
-        public override DbTableInfo GetTableInfo()
+        @Override
+        public DbTableInfo GetTableInfo()
         {
-            DbTableInfo ret = base.GetTableInfo();
+            DbTableInfo ret = super.GetTableInfo();
 
             // TODO - nebude fungovat pro vice typu testu.
 
-            ret.DbColumns.Add(new DbColumnInfo("DistinctQueryPlans", "distinct_query_plans", System.Data.DbType.Int32));
-            ret.DbColumns.Add(new DbColumnInfo("SuccessfullyCompletedVariants", "successfully_completed_variants", System.Data.DbType.Int32));
-            ret.DbColumns.Add(new DbColumnInfo("Started", "started", System.Data.DbType.Boolean));
-            ret.DbColumns.Add(new DbColumnInfo("Completed", "completed", System.Data.DbType.Boolean));
-            ret.DbColumns.Add(new DbColumnInfo("TemplateNumber", "template_number", System.Data.DbType.String, 20));
+            ret.DbColumns().add(new DbColumnInfo("DistinctQueryPlans", "distinct_query_plans", System.Data.DbType.Int32));
+            ret.DbColumns().add(new DbColumnInfo("SuccessfullyCompletedVariants", "successfully_completed_variants", System.Data.DbType.Int32));
+            ret.DbColumns().add(new DbColumnInfo("Started", "started", System.Data.DbType.Boolean));
+            ret.DbColumns().add(new DbColumnInfo("Completed", "completed", System.Data.DbType.Boolean));
+            ret.DbColumns().add(new DbColumnInfo("TemplateNumber", "template_number", System.Data.DbType.String, 20));
 
-            ret.DbDependentTables.Add(new DbDependentTableInfo("QueryVariantResults", "QueryVariantResult", "test_result_id"));
-            ret.DbDependentTables.Add(new DbDependentTableInfo("SelectedAnnotationResults", "SelectedAnnotationResult", "test_result_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("QueryVariantResults", "QueryVariantResult", "test_result_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("SelectedAnnotationResults", "SelectedAnnotationResult", "test_result_id"));
 
             return ret;
         }

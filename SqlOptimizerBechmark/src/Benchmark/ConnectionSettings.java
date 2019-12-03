@@ -5,23 +5,28 @@
         private Benchmark benchmark;
         private DbProviders.DbProvider dbProvider;
 
-        public DbProviders.DbProvider DbProvider
-        {
-            get => dbProvider;
-            set => dbProvider = value;
+        public DbProviders.DbProvider DbProvider() {
+            return dbProvider;
         }
 
-        public override IBenchmarkObject ParentObject => benchmark;
+        public void DbProvider(DbProviders.DbProvider value) {
+            dbProvider = value;
+        }
+
+        @Override
+        public IBenchmarkObject ParentObject() {
+            return benchmark;
+        }
 
         public ConnectionSettings(Benchmark benchmark)
         {
             this.benchmark = benchmark;
         }
-
-
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        
+        @Override
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
-            string providerName = null;
+            String providerName = null;
             serializer.ReadString("provider", ref providerName);
 
             if (providerName != null)
@@ -35,13 +40,13 @@
             }
             else
             {
-                string currentProvider = null;
+                String currentProvider = null;
                 serializer.ReadString("current_provider", ref currentProvider);
 
                 if (currentProvider != null)
                 {
                     XElement eProviders = serializer.ReadXml("providers");
-                    foreach (XElement eProvider in eProviders.Elements("provider"))
+                    for (XElement eProvider : eProviders.Elements("provider"))
                     {
                         providerName = eProvider.Attribute("name").Value;
                         DbProviders.DbProvider dbProvider1 = DbProviders.DbProvider.GetProvider(providerName);
@@ -55,9 +60,9 @@
                 }
             }
         }
-        
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             if (dbProvider != null)
             {
@@ -66,7 +71,7 @@
                 XElement eProviders = new XElement("providers");
 
                 // Since ver. 1.30, settings of all providers are stored in the XML.
-                foreach (DbProviders.DbProvider provider in DbProviders.DbProvider.Providers)
+                for (DbProviders.DbProvider provider : DbProviders.DbProvider.Providers)
                 {
                     XElement eProvider = new XElement("provider");
                     XAttribute aProviderName = new XAttribute("name", provider.Name);

@@ -1,47 +1,47 @@
 ﻿package Benchmark;
-    public class Statement extends BenchmarkObject
-    {
-        private BenchmarkObject parentObject;
-        private string commandText = string.Empty;
-        
-        public override IBenchmarkObject ParentObject => parentObject;
 
-        public string CommandText
-        {
-            get => commandText;
-            set
-            {
-                if (commandText != value)
-                {
-                    commandText = value;
-                    OnPropertyChanged("CommandText");
-                }
-            }
-        }
+public class Statement extends BenchmarkObject {
+    private BenchmarkObject parentObject;
+    private String commandText = "";
 
-        public Statement(BenchmarkObject parentObject)
-        {
-            this.parentObject = parentObject;
-        }
-        
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
-        {
-            serializer.WriteString("command_text", commandText);
-        }
+    @Override
+    public IBenchmarkObject ParentObject() {
+        return parentObject;
+    }
 
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
-        {
-            serializer.ReadString("command_text", ref commandText);
-        }
+    public String CommandText() {
+        return commandText;
+    }
 
-        public override DbTableInfo GetTableInfo()
-        {
-            DbTableInfo ret = base.GetTableInfo();
-
-            ret.TableName = "Statement";
-
-            ret.DbColumns.Add(new DbColumnInfo("CommandText", "command_text", System.Data.DbType.String, 1000));
-
-            return ret;
+    public void CommandText(String value) {
+        if (commandText != value) {
+            commandText = value;
+            OnPropertyChanged("CommandText");
         }
     }
+
+    public Statement(BenchmarkObject parentObject) {
+        this.parentObject = parentObject;
+    }
+
+    @Override
+    public void SaveToXml(BenchmarkXmlSerializer serializer) {
+        serializer.WriteString("command_text", commandText);
+    }
+
+    @Override
+    public void LoadFromXml(BenchmarkXmlSerializer serializer) {
+        serializer.ReadString("command_text", ref commandText);
+    }
+
+    @Override
+    public DbTableInfo GetTableInfo() {
+        DbTableInfo ret = super.GetTableInfo();
+
+        ret.TableName("Statement");
+
+        ret.DbColumns().add(new DbColumnInfo("CommandText", "command_text", System.Data.DbType.String, 1000));
+
+        return ret;
+    }
+}

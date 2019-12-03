@@ -8,16 +8,17 @@
             return parentObject;
         }
 
-        public int AnnotationId
+        public int AnnotationId()
         {
-            get => annotationId;
-            set
+            return annotationId;
+        }
+
+        public void AnnotationId(int value)
+        {
+            if (annotationId != value)
             {
-                if (annotationId != value)
-                {
-                    annotationId = value;
-                    OnPropertyChanged("AnnotationId");
-                }
+                annotationId = value;
+                OnPropertyChanged("AnnotationId");
             }
         }
 
@@ -26,19 +27,22 @@
             this.parentObject = parentObject;
         }
 
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             serializer.ReadInt("annotation_id", ref annotationId);
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("annotation_id", annotationId);
         }
 
-        public override DbTableInfo GetTableInfo()
+        @Override
+        public DbTableInfo GetTableInfo()
         {
-            DbTableInfo ret = base.GetTableInfo();
+            DbTableInfo ret = super.GetTableInfo();
 
             ret.TableName = "SelectedAnnotation";
 

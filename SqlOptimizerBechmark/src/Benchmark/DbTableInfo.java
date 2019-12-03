@@ -1,27 +1,27 @@
 ﻿package Benchmark;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DbTableInfo {
     private String tableName;
-    private IList<DbColumnInfo> dbColumns = new List<DbColumnInfo>();
-    private IList<DbDependentTableInfo> dbDependentTables = new List<DbDependentTableInfo>();
+    private List<DbColumnInfo> dbColumns = new ArrayList<DbColumnInfo>();
+    private List<DbDependentTableInfo> dbDependentTables = new ArrayList<DbDependentTableInfo>();
 
-    public String TableName
-
-    {
-        get =>tableName;
-        set =>tableName = value;
+    public String TableName() {
+        return tableName;
     }
 
-    public IList<DbColumnInfo> DbColumns
-
-    {
-        get =>dbColumns;
+    public void TableName(String value) {
+        tableName = value;
     }
 
-    public IList<DbDependentTableInfo> DbDependentTables
+    public List<DbColumnInfo> DbColumns() {
+        return dbColumns;
+    }
 
-    {
-        get =>dbDependentTables;
+    public List<DbDependentTableInfo> DbDependentTables() {
+        return dbDependentTables;
     }
 
     public DbTableInfo() {

@@ -3,85 +3,88 @@
     {
         private Benchmark benchmark;
         private int id = 0;
-        private string number = string.Empty;
-        private string name = string.Empty;
-        private string description = string.Empty;
+        private String number = "";
+        private String name = "";
+        private String description = "";
         private ObservableCollection<Test> tests = new ObservableCollection<Test>();
         private ObservableCollection<Configuration> configurations = new ObservableCollection<Configuration>();
 
-        public override IBenchmarkObject ParentObject => benchmark;
-
-        public override IEnumerable<IBenchmarkObject> ChildObjects
-        {
-            get
-            {
-                foreach (Test test in tests)
-                {
-                    yield return test;
-                }
-                foreach (Configuration configuration in configurations)
-                {
-                    yield return configuration;
-                }
-            }
+        @Override
+        public IBenchmarkObject ParentObject() {
+            return benchmark;
         }
 
-        public Benchmark Benchmark
+        @Override
+        public IEnumerable<IBenchmarkObject> ChildObjects()
+        { 
+            for (Test test in tests)
+            {
+                yield return test;
+            }
+            foreach (Configuration configuration in configurations)
+            {
+                yield return configuration;
+            } 
+        }
+
+        public Benchmark Benchmark()
         {
-            get => benchmark;
+            return benchmark;
         }               
 
-        public int Id
+        public int Id()
         {
-            get => id;
+            return id;
         }
 
-        public string Number
+        public String Number()
         {
-            get => number;
-            set
+            return number;
+        }
+        public void Number(String value)
+        {
+            if (number != value)
             {
-                if (number != value)
-                {
-                    number = value;
-                    OnPropertyChanged("Number");
-                }
+                number = value;
+                OnPropertyChanged("Number");
             }
         }
-        public string Name
+        public String Name()
         {
-            get => name;
-            set
+            return name;
+        }
+        public void Name(String value)
+        {
+            if (name != value)
             {
-                if (name != value)
-                {
-                    name = value;
-                    OnPropertyChanged("Name");
-                }
+                name = value;
+                OnPropertyChanged("Name");
             }
         }
         
-        public string Description
+        public String Description()
         {
-            get => description;
-            set
+            return description;
+        }
+
+
+        public void Description(String value)
+        {
+            if (description != value)
             {
-                if (description != value)
-                {
-                    description = value;
-                    OnPropertyChanged("Description");
-                }
+                description = value;
+                OnPropertyChanged("Description");
             }
         }
 
-        public ObservableCollection<Test> Tests
+        public ObservableCollection<Test> Tests()
         {
-            get => tests;
+            return tests;
         }
 
-        public ObservableCollection<Configuration> Configurations
+        public ObservableCollection<Configuration> Configurations()
         {
-            get => configurations;
+            return configurations;
         }
 
         public TestGroup(Benchmark benchmark)
@@ -102,14 +105,14 @@
             NotifyChange();
         }
 
-        public bool Contains(BenchmarkObject benchmarkObject)
+        public boolean Contains(BenchmarkObject benchmarkObject)
         {
             if (benchmarkObject == this)
             {
                 return true;
             }
 
-            foreach (Configuration configuration in configurations)
+            for (Configuration configuration : configurations)
             {
                 if (configuration.Contains(benchmarkObject))
                 {
@@ -117,7 +120,7 @@
                 }
             }
 
-            foreach (Test test in tests)
+            for (Test test : tests)
             {
                 if (test.Contains(benchmarkObject))
                 {
@@ -128,7 +131,8 @@
             return false;
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("id", id);
             serializer.WriteString("number", number);
@@ -138,7 +142,8 @@
             serializer.WriteCollection<Configuration>("configurations", "configuration", configurations);
         }
 
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             if (!serializer.ReadInt("id", ref id))
             {
@@ -155,21 +160,22 @@
                 delegate () { return new Configuration(this); });
         }
 
-        public override DbTableInfo GetTableInfo()
+        @Override
+        public DbTableInfo GetTableInfo()
         {
-            DbTableInfo ret = base.GetTableInfo();
+            DbTableInfo ret = super.GetTableInfo();
 
-            ret.TableName = "TestGroup";
+            ret.TableName("TestGroup");
 
-            ret.DbColumns.Add(new DbColumnInfo("Id", "test_group_id", System.Data.DbType.Int32, true)); // PK
-            ret.DbColumns.Add(new DbColumnInfo(null, "benchmark_id", System.Data.DbType.Int32, true, "Benchmark", "benchmark_id")); // FK
+            ret.DbColumns().add(new DbColumnInfo("Id", "test_group_id", System.Data.DbType.Int32, true)); // PK
+            ret.DbColumns().add(new DbColumnInfo(null, "benchmark_id", System.Data.DbType.Int32, true, "Benchmark", "benchmark_id")); // FK
 
-            ret.DbColumns.Add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
-            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
-            ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+            ret.DbColumns().add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
+            ret.DbColumns().add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns().add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
 
-            ret.DbDependentTables.Add(new DbDependentTableInfo("Tests", "Test", "test_group_id"));
-            ret.DbDependentTables.Add(new DbDependentTableInfo("Configurations", "Configuration", "test_group_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("Tests", "Test", "test_group_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("Configurations", "Configuration", "test_group_id"));
 
             return ret;
         }

@@ -6,28 +6,28 @@
         private StatementList defaultStatementList;
         private ObservableCollection<SpecificStatementList> specificStatementLists;
         
-        public override IBenchmarkObject ParentObject => parentObject;
+        @Override
+        public IBenchmarkObject ParentObject() {
+            return parentObject;
+        }
 
-        public override IEnumerable<IBenchmarkObject> ChildObjects
+        public IEnumerable<IBenchmarkObject> ChildObjects()
         {
-            get
+            yield return defaultStatementList;
+            for (SpecificStatementList specificStatementList : specificStatementLists)
             {
-                yield return defaultStatementList;
-                foreach (SpecificStatementList specificStatementList in specificStatementLists)
-                {
-                    yield return specificStatementList;
-                }
+                yield return specificStatementList;
             }
         }
 
-        public StatementList DefaultStatementList
+        public StatementList DefaultStatementList()
         {
-            get => defaultStatementList;
+            return defaultStatementList;
         }
 
-        public ObservableCollection<SpecificStatementList> SpecificStatementLists
+        public ObservableCollection<SpecificStatementList> SpecificStatementLists()
         {
-            get => specificStatementLists;
+            return specificStatementLists;
         }
 
         public Script(IBenchmarkObject parentObject)
@@ -37,11 +37,11 @@
             this.specificStatementLists = new ObservableCollection<SpecificStatementList>();
         }
 
-        public StatementList GetStatementList(string providerName)
+        public StatementList GetStatementList(String providerName)
         {
-            foreach (SpecificStatementList specificStatementList in specificStatementLists)
+            for (SpecificStatementList specificStatementList : specificStatementLists)
             {
-                if (specificStatementList.ProviderName == providerName)
+                if (specificStatementList.ProviderName() == providerName)
                 {
                     return specificStatementList;
                 }
@@ -50,11 +50,11 @@
             return defaultStatementList;
         }
 
-        public bool HasSpecificStatementList(string providerName)
+        public boolean HasSpecificStatementList(String providerName)
         {
-            foreach (SpecificStatementList specificStatementList in specificStatementLists)
+            for (SpecificStatementList specificStatementList : specificStatementLists)
             {
-                if (specificStatementList.ProviderName == providerName)
+                if (specificStatementList.ProviderName() == providerName)
                 {
                     return true;
                 }
@@ -62,7 +62,8 @@
             return false;
         }
 
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             // Zpetna kompatibilita.
             if (!serializer.ReadObject("default_statement_list", defaultStatementList))
@@ -73,17 +74,19 @@
                 delegate () { return new SpecificStatementList(this); });
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteObject("default_statement_list", defaultStatementList);
             serializer.WriteCollection<SpecificStatementList>("specific_statement_lists", "specific_statement_list", specificStatementLists);
         }
 
-        public override DbTableInfo GetTableInfo()
+        @Override
+        public DbTableInfo GetTableInfo()
         {
-            DbTableInfo ret = base.GetTableInfo();
+            DbTableInfo ret = super.GetTableInfo();
 
-            ret.TableName = "Script";
+            ret.TableName("Script");
 
             return ret;
         }

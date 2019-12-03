@@ -3,86 +3,74 @@
 public class Configuration extends BenchmarkObject implements IIdentifiedBenchmarkObject, INumberedBenchmarkObject, INamedBenchmarkObject, IDescribedBenchmarkObject {
     private TestGroup testGroup;
     private int id = 0;
-    private String number = String.Empty;
-    private String name = String.Empty;
-    private String description = String.Empty;
+    private String number = "";
+    private String name = "";
+    private String description = "";
     private Script initScript;
     private Script cleanUpScript;
 
-    public override IBenchmarkObject
-    ParentObject =>testGroup;
+    @Override
+    public IBenchmarkObject ParentObject() {
+        return testGroup;
+    }
 
-    public override IEnumerable<IBenchmarkObject>ChildObjects
-
+    @Override
+    public IEnumerable<IBenchmarkObject>ChildObjects()
     {
-        get
-        {
-            yield return initScript;
-            yield return cleanUpScript;
+        yield return initScript;
+        yield return cleanUpScript;
+    }
+
+    public TestGroup TestGroup ()
+    {
+        return testGroup;
+    }
+
+    public int Id(){
+        return id;
+    }
+
+    public String Number()
+    {
+        return number;
+    }
+
+    public void Number(String value)
+    {
+        if (number != value) {
+            number = value;
+            OnPropertyChanged("Number");
         }
     }
 
-    public TestGroup TestGroup
-
-    {
-        get =>testGroup;
+    public String Name() {
+        return name;
     }
 
-    public int Id
-
-    {
-        get =>id;
-    }
-
-    public String Number
-
-    {
-        get =>number;
-        set
-        {
-            if (number != value) {
-                number = value;
-                OnPropertyChanged("Number");
-            }
+    public void Name(String value) {
+        if (name != value) {
+            name = value;
+            OnPropertyChanged("Name");
         }
     }
 
-    public String Name
+    public String Description() {
+        return description;
+    }
 
-    {
-        get =>name;
-        set
-        {
-            if (name != value) {
-                name = value;
-                OnPropertyChanged("Name");
-            }
+    public void Description(String value) {
+        if (description != value) {
+            description = value;
+            OnPropertyChanged("Description");
         }
     }
 
-    public String Description
-
-    {
-        get =>description;
-        set
-        {
-            if (description != value) {
-                description = value;
-                OnPropertyChanged("Description");
-            }
-        }
+    public Script InitScript() {
+        return initScript;
     }
 
-    public Script InitScript
-
-    {
-        get =>initScript;
-    }
-
-    public Script CleanUpScript
-
-    {
-        get =>cleanUpScript;
+    public Script CleanUpScript() {
+        return cleanUpScript;
     }
 
     public Configuration(TestGroup testGroup) {
@@ -92,9 +80,8 @@ public class Configuration extends BenchmarkObject implements IIdentifiedBenchma
         cleanUpScript = new Script(this);
     }
 
-    public override
-
-    void SaveToXml(BenchmarkXmlSerializer serializer) {
+    @Override
+    public void SaveToXml(BenchmarkXmlSerializer serializer) {
         serializer.WriteInt("id", id);
         serializer.WriteString("number", number);
         serializer.WriteString("name", name);
@@ -103,9 +90,8 @@ public class Configuration extends BenchmarkObject implements IIdentifiedBenchma
         serializer.WriteObject("clean_up_script", cleanUpScript);
     }
 
-    public override
-
-    void LoadFromXml(BenchmarkXmlSerializer serializer) {
+    @Override
+    public void LoadFromXml(BenchmarkXmlSerializer serializer) {
         if (!serializer.ReadInt("id", ref id)) {
             id = testGroup.Benchmark.GenerateId();
         }
@@ -116,10 +102,9 @@ public class Configuration extends BenchmarkObject implements IIdentifiedBenchma
         serializer.ReadObject("clean_up_script", cleanUpScript);
     }
 
-    public override DbTableInfo
-
-    GetTableInfo() {
-        DbTableInfo ret = base.GetTableInfo();
+    @Override
+    public DbTableInfo GetTableInfo() {
+        DbTableInfo ret = super.GetTableInfo();
 
         ret.TableName = "Configuration";
 

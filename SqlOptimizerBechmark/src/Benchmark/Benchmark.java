@@ -23,25 +23,22 @@
             return null;
         }
 
-        public IEnumerable<IBenchmarkObject> ChildObjects
+        public IEnumerable<IBenchmarkObject> ChildObjects()
         {
-            get
+            yield return initScript;
+            yield return cleanUpScript;
+            foreach (TestGroup testGroup in testGroups)
             {
-                yield return initScript;
-                yield return cleanUpScript;
-                foreach (TestGroup testGroup in testGroups)
-                {
-                    yield return testGroup;
-                }
-                yield return connectionSettings;
-                foreach (TestRun testRun in testRuns)
-                {
-                    yield return testRun;
-                }
-                foreach (Annotation annotation in annotations)
-                {
-                    yield return annotation;
-                }
+                yield return testGroup;
+            }
+            yield return connectionSettings;
+            foreach (TestRun testRun in testRuns)
+            {
+                yield return testRun;
+            }
+            foreach (Annotation annotation in annotations)
+            {
+                yield return annotation;
             }
         }
 
@@ -59,65 +56,66 @@
             }
         }
 
-        public string Author
+        public String Author() {
+            return author;
+        }
+
+        public void Author(String value)
         {
-            get => author;
-            set
+            if (author != value)
             {
-                if (author != value)
-                {
-                    author = value;
-                    OnPropertyChanged("Author");
-                }
+                author = value;
+                OnPropertyChanged("Author");
             }
         }
 
-        public string Description
+        public String Description()
         {
-            get => description;
-            set
+            return description;
+        }
+
+        public void Description(String value)
+        {
+            if (description != value)
             {
-                if (description != value)
-                {
-                    description = value;
-                    OnPropertyChanged("Description");
-                }
+                description = value;
+                OnPropertyChanged("Description");
             }
         }
 
-        public Script InitScript
+        public Script InitScript()
         {
-            get => initScript;
+            return initScript;
         }
 
-        public Script CleanUpScript
+        public Script CleanUpScript()
         {
-            get => cleanUpScript;
+            return cleanUpScript;
         }
 
-        public ObservableCollection<TestGroup> TestGroups
+        public ObservableCollection<TestGroup> TestGroups()
         {
-            get => testGroups;
+           return testGroups;
         }
 
-        public ConnectionSettings ConnectionSettings
+        public ConnectionSettings ConnectionSettings()
         {
-            get => connectionSettings;
+            return connectionSettings;
         }
 
-        public TestRunSettings TestRunSettings
+        public TestRunSettings TestRunSettings()
         {
-            get => testRunSettings;
+            return testRunSettings;
         }
 
-        public ObservableCollection<TestRun> TestRuns
+        public ObservableCollection<TestRun> TestRuns()
         {
-            get => testRuns;
+            return testRuns;
         }
 
-        public ObservableCollection<Annotation> Annotations
+        public ObservableCollection<Annotation> Annotations()
         {
-            get => annotations;
+            return annotations;
         }
 
         public Benchmark()
@@ -161,13 +159,13 @@
             serializer.ReadInt("last_id", ref lastId);
         }
 
-        public void Save(string fileName)
+        public void Save(String fileName)
         {
             BenchmarkXmlSerializer serializer = new BenchmarkXmlSerializer();
             serializer.SaveBenchmark(this, fileName);
         }
 
-        public void Load(string fileName)
+        public void Load(String fileName)
         {
             BenchmarkXmlSerializer serializer = new BenchmarkXmlSerializer();
             serializer.LoadBenchmark(this, fileName);

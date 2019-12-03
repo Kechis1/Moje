@@ -3,78 +3,86 @@
     {
         private TestGroup testGroup;
         private int id = 0;
-        private string number = string.Empty;
-        private string name = string.Empty;
-        private string description = string.Empty;
-        private bool active = true;
+        private String number = "";
+        private String name = "";
+        private String description = "";
+        private boolean active = true;
 
-        public override IBenchmarkObject ParentObject => testGroup;
-
-        public TestGroup TestGroup
-        {
-            get => testGroup;
+        @Override
+        public IBenchmarkObject ParentObject() {
+            return testGroup;
         }
 
-        public int Id
+        public TestGroup TestGroup()
         {
-            get => id;
+            return testGroup;
         }
 
-        public string Number
+        public int Id()
         {
-            get => number;
-            set
+            return id;
+        }
+
+        public String Number()
+        {
+            return number;
+        }
+
+        public void Number(String value)
+        {
+            if (number != value)
             {
-                if (number != value)
-                {
-                    number = value;
-                    OnPropertyChanged("Number");
-                }
+                number = value;
+                OnPropertyChanged("Number");
             }
         }
 
-        public string Name
+        public String Name()
         {
-            get => name;
-            set
+            return name;
+        }
+
+        public void Name(String value)
+        {
+            if (name != value)
             {
-                if (name != value)
-                {
-                    name = value;
-                    OnPropertyChanged("Name");
-                }
+                name = value;
+                OnPropertyChanged("Name");
             }
         }
         
-        public string Description
+        public String Description()
         {
-            get => description;
-            set
+            return description;
+        }
+
+        public void Description(String value)
+        {
+            if (description != value)
             {
-                if (description != value)
-                {
-                    description = value;
-                    OnPropertyChanged("Description");
-                }
+                description = value;
+                OnPropertyChanged("Description");
             }
         }
 
-        public bool Active
+        public boolean Active()
         {
-            get => active;
-            set
+            return active;
+        }
+
+        public boolean Active(boolean value)
+        {
+
+            if (active != value)
             {
-                if (active != value)
-                {
-                    active = value;
-                    OnPropertyChanged("Active");
-                }
+                active = value;
+                OnPropertyChanged("Active");
             }
         }
 
-        public abstract TestType TestType
+        public abstract TestType TestType()
         {
-            get;
+            return;
         }
 
         public Test(TestGroup testGroup)
@@ -83,7 +91,8 @@
             this.testGroup = testGroup;
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("id", id);
             serializer.WriteString("number", number);
@@ -91,7 +100,9 @@
             serializer.WriteString("description", description);
             serializer.WriteBool("active", active);            
         }
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        
+        @Override
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             if (!serializer.ReadInt("id", ref id))
             {
@@ -103,17 +114,18 @@
             serializer.ReadBool("active", ref active);
         }
 
-        public override DbTableInfo GetTableInfo()
+        @Override
+        public DbTableInfo GetTableInfo()
         {
-            DbTableInfo ret = base.GetTableInfo();
+            DbTableInfo ret = super.GetTableInfo();
 
-            ret.TableName = "Test";
+            ret.TableName("Test");
 
-            ret.DbColumns.Add(new DbColumnInfo("Id", "test_id", System.Data.DbType.Int32, true));
-            ret.DbColumns.Add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
-            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
-            ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
-            ret.DbColumns.Add(new DbColumnInfo("Active", "active", System.Data.DbType.Boolean));
+            ret.DbColumns().add(new DbColumnInfo("Id", "test_id", System.Data.DbType.Int32, true));
+            ret.DbColumns().add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
+            ret.DbColumns().add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns().add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+            ret.DbColumns().add(new DbColumnInfo("Active", "active", System.Data.DbType.Boolean));
 
             return ret;
         }

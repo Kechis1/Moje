@@ -32,17 +32,17 @@
 
         public PlanEquivalenceTest PlanEquivalenceTest
         {
-            get => planEquivalenceTest;
+            return planEquivalenceTest;
         }
 
         public int Id
         {
-            get => id;
+            return id;
         }
 
         public string Number
         {
-            get => number;
+            return number;
             set
             {
                 if (number != value)
@@ -55,7 +55,7 @@
 
         public string Name
         {
-            get => name;
+            return name;
             set
             {
                 if (name != value)
@@ -68,7 +68,7 @@
 
         public string Description
         {
-            get => description;
+            return description;
             set
             {
                 if (description != value)
@@ -81,17 +81,17 @@
 
         public Statement DefaultStatement
         {
-            get => defaultStatement;
+            return defaultStatement;
         }
         
         public ObservableCollection<SpecificStatement> SpecificStatements
         {
-            get => specificStatements;
+            return specificStatements;
         }
 
         public ObservableCollection<SelectedAnnotation> SelectedAnnotations
         {
-            get => selectedAnnotations;
+            return selectedAnnotations;
         }
 
         public QueryVariant(PlanEquivalenceTest planEquivalenceTest)
@@ -115,11 +115,11 @@
             return defaultStatement;
         }
 
-        public bool HasSpecificStatement(string providerName)
+        public boolean HasSpecificStatement(string providerName)
         {
-            foreach (SpecificStatement specificStatement in specificStatements)
+            for (SpecificStatement specificStatement : specificStatements)
             {
-                if (specificStatement.ProviderName == providerName)
+                if (specificStatement.ProviderName() == providerName)
                 {
                     return true;
                 }
@@ -127,7 +127,8 @@
             return false;
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("id", id);
             serializer.WriteString("number", number);

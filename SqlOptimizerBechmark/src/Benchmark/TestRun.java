@@ -3,111 +3,118 @@
     {
         private Benchmark benchmark;
         private int id;
-        private string name = string.Empty;
+        private String name = "";
         private DateTime startDate = DateTime.MinValue;
         private DateTime endDate = DateTime.MinValue;
-        private string settingsInfo = string.Empty;
-        private string executorInfo = string.Empty;
+        private String settingsInfo = "";
+        private String executorInfo = "";
 
         private ObservableCollection<TestGroupResult> testGroupResults = new ObservableCollection<TestGroupResult>();
         private ObservableCollection<ConfigurationResult> configurationResults = new ObservableCollection<ConfigurationResult>();
         private ObservableCollection<AnnotationResult> annotationResults = new ObservableCollection<AnnotationResult>();
         private ObservableCollection<TestResult> testResults = new ObservableCollection<TestResult>();
 
-        public override IBenchmarkObject ParentObject => benchmark;
+        public IBenchmarkObject ParentObject() {
+            return benchmark;
+        }
 
-        public override IEnumerable<IBenchmarkObject> ChildObjects
+        public IEnumerable<IBenchmarkObject> ChildObjects()
         {
-            get
+            for (TestGroupResult testGroupResult : testGroupResults)
             {
-                foreach (TestGroupResult testGroupResult in testGroupResults)
-                {
-                    yield return testGroupResult;
-                }
+                yield return testGroupResult;
+            }
 
-                foreach (ConfigurationResult configurationResult in configurationResults)
-                {
-                    yield return configurationResult;
-                }
+            for (ConfigurationResult configurationResult : configurationResults)
+            {
+                yield return configurationResult;
+            }
 
-                foreach (AnnotationResult annotationResult in annotationResults)
-                {
-                    yield return annotationResult;
-                }
+            for (AnnotationResult annotationResult : annotationResults)
+            {
+                yield return annotationResult;
+            }
 
-                foreach (TestResult testResult in testResults)
-                {
-                    yield return testResult;
-                }
+            for (TestResult testResult : testResults)
+            {
+                yield return testResult;
             }
         }
 
-        public int Id => id;
-
-        public Benchmark Benchmark => benchmark;
-
-        public string Name
-        {
-            get => name;
-            set
-            {
-                if (name != value)
-                {
-                    name = value;
-                    OnPropertyChanged("Name");
-                }
-            }           
+        public int Id() {
+            return id;
         }
 
-        public DateTime StartDate
+        public Benchmark Benchmark() {
+            return benchmark;
+        }
+
+        public String Name()
         {
-            get => startDate;
-            set
+            return name;        
+        }
+        public void Name(String value)
+        {
+            if (name != value)
             {
-                if (startDate != value)
-                {
-                    startDate = value;
-                    OnPropertyChanged("StartDate");
-                }
+                name = value;
+                OnPropertyChanged("Name");
+            }     
+        }
+
+        public DateTime StartDate()
+        {
+            return startDate; 
+        }
+
+        public void StartDate(DateTime value)
+        {
+            if (startDate != value)
+            {
+                startDate = value;
+                OnPropertyChanged("StartDate");
             }
         }
 
-        public DateTime EndDate
+        public DateTime EndDate()
         {
-            get => endDate;
-            set
+            return endDate; 
+        }
+
+        public void EndDate(DateTime value)
+        {
+            if (endDate != value)
             {
-                if (endDate != value)
-                {
-                    endDate = value;
-                    OnPropertyChanged("EndDate");
-                }
+                endDate = value;
+                OnPropertyChanged("EndDate");
             }
         }
 
-        public string SettingsInfo
+        public String SettingsInfo()
         {
-            get => settingsInfo;
-            set
+            return settingsInfo; 
+        }
+
+        public void SettingsInfo(String value)
+        {
+            if (settingsInfo != value)
             {
-                if (settingsInfo != value)
-                {
-                    settingsInfo = value;
-                    OnPropertyChanged("SettingsInfo");
-                }
+                settingsInfo = value;
+                OnPropertyChanged("SettingsInfo");
             }
         }
 
-        public string ExecutorInfo
+        public String ExecutorInfo()
         {
-            get => executorInfo;
-            set
+            return executorInfo; 
+        }
+
+        public void ExecutorInfo(String value)
+        {
+            if (executorInfo != value)
             {
-                if (executorInfo != value)
-                {
-                    executorInfo = value;
-                    OnPropertyChanged("ExecutorInfo");
-                }
+                executorInfo = value;
+                OnPropertyChanged("ExecutorInfo");
             }
         }
 
@@ -141,7 +148,7 @@
             return annotationResults.Where(a => a.AnnotationId == annotationId).FirstOrDefault();
         }
 
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             serializer.ReadInt("id", ref id);
             serializer.ReadString("name", ref name);
@@ -163,7 +170,7 @@
                 delegate () { return new PlanEquivalenceTestResult(this); });
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("id", id);
             serializer.WriteString("name", name);
@@ -177,9 +184,9 @@
             serializer.WriteCollection<TestResult>("test_results", "test_result", testResults);
         }
 
-        public static string GetCsvStr(string str)
+        public static String GetCsvStr(String str)
         {
-            return string.Format("\"{0}\"", str.Replace("\"", "\"\""));
+            return String.Format("\"{0}\"", str.Replace("\"", "\"\""));
         }
 
         public void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
@@ -194,38 +201,38 @@
                 writer.WriteLine("code;group;configuration;test;test annotations;variant;variant annotations;result size;processing time;query plan;root cost;root estimated rows;root actual rows");
             }
 
-            foreach (TestResult testResult in testResults)
+            for (TestResult testResult : testResults)
             {
                 testResult.ExportToCsv(writer, exportOptions);
             }
         }
 
-        public void ExportToCsv(string fileName, CsvExportOptions exportOptions)
+        public void ExportToCsv(String fileName, CsvExportOptions exportOptions)
         {
             StreamWriter writer = new StreamWriter(fileName);
             ExportToCsv(writer, exportOptions);
             writer.Close();
         }
 
-        public override DbTableInfo GetTableInfo()
+        public DbTableInfo GetTableInfo()
         {
-            DbTableInfo ret = base.GetTableInfo();
+            DbTableInfo ret = super.GetTableInfo();
 
-            ret.TableName = "TestRun";
+            ret.TableName("TestRun");
 
-            ret.DbColumns.Add(new DbColumnInfo("Id", "test_run_id", System.Data.DbType.Int32, true)); // PK
-            ret.DbColumns.Add(new DbColumnInfo(null, "benchmark_id", System.Data.DbType.Int32, true, "Benchmark", "benchmark_id")); // FK
+            ret.DbColumns().add(new DbColumnInfo("Id", "test_run_id", System.Data.DbType.Int32, true)); // PK
+            ret.DbColumns().add(new DbColumnInfo(null, "benchmark_id", System.Data.DbType.Int32, true, "Benchmark", "benchmark_id")); // FK
 
-            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
-            ret.DbColumns.Add(new DbColumnInfo("StartDate", "start_date", System.Data.DbType.DateTime));
-            ret.DbColumns.Add(new DbColumnInfo("EndDate", "end_date", System.Data.DbType.DateTime));
-            ret.DbColumns.Add(new DbColumnInfo("SettingsInfo", "settings_info", System.Data.DbType.String, 300));
-            ret.DbColumns.Add(new DbColumnInfo("ExecutorInfo", "executor_info", System.Data.DbType.String, 300));
+            ret.DbColumns().add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns().add(new DbColumnInfo("StartDate", "start_date", System.Data.DbType.DateTime));
+            ret.DbColumns().add(new DbColumnInfo("EndDate", "end_date", System.Data.DbType.DateTime));
+            ret.DbColumns().add(new DbColumnInfo("SettingsInfo", "settings_info", System.Data.DbType.String, 300));
+            ret.DbColumns().add(new DbColumnInfo("ExecutorInfo", "executor_info", System.Data.DbType.String, 300));
 
-            ret.DbDependentTables.Add(new DbDependentTableInfo("ConfigurationResults", "ConfigurationResult", "test_run_id"));
-            ret.DbDependentTables.Add(new DbDependentTableInfo("TestGroupResults", "TestGroupResult", "test_run_id"));
-            ret.DbDependentTables.Add(new DbDependentTableInfo("AnnotationResults", "AnnotationResult", "test_run_id"));
-            ret.DbDependentTables.Add(new DbDependentTableInfo("TestResults", "TestResult", "test_run_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("ConfigurationResults", "ConfigurationResult", "test_run_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("TestGroupResults", "TestGroupResult", "test_run_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("AnnotationResults", "AnnotationResult", "test_run_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("TestResults", "TestResult", "test_run_id"));
 
             return ret;
         }
