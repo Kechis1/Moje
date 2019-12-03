@@ -1,19 +1,23 @@
 ﻿package Benchmark;
 
+import javax.swing.text.html.HTMLDocument;
+import java.util.Enumeration;
+import java.util.Iterator;
+
 public abstract class BenchmarkObject implements IBenchmarkObject {
     public IBenchmarkObject ParentObject;
 
-    public virtual Benchmark Owner =>ParentObject.Owner;
+    public Benchmark Owner() {
+        return ParentObject.Owner;
+    }
 
-    public virtual IEnumerable<IBenchmarkObject>ChildObjects =>Enumerable.Empty<IBenchmarkObject>();
+    public Iterable<IBenchmarkObject>ChildObjects() {
+        return new Iterable<IBenchmarkObject>();
+    }
 
+    public event PropertyChangedEventHandler PropertyChanged;
 
-    public event PropertyChangedEventHandler
-    PropertyChanged;
-
-    protected virtual
-
-    void OnPropertyChanged(string propertyName) {
+    protected virtual void OnPropertyChanged(String propertyName) {
         if (PropertyChanged != null) {
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -28,12 +32,9 @@ public abstract class BenchmarkObject implements IBenchmarkObject {
     }
 
 
-    public event EventHandler
-    Changed;
+    public event EventHandler Changed;
 
-    protected virtual
-
-    void OnChanged() {
+    protected virtual void OnChanged() {
         if (Changed != null) {
             Changed(this, EventArgs.Empty);
         }
@@ -50,9 +51,7 @@ public abstract class BenchmarkObject implements IBenchmarkObject {
         }
     }
 
-    public virtual bool
-
-    Contains(IBenchmarkObject benchmarkObject) {
+    public virtual bool Contains(IBenchmarkObject benchmarkObject) {
         Stack<IBenchmarkObject> stack = new Stack<IBenchmarkObject>();
         stack.Push(this);
         while (stack.Count > 0) {
@@ -68,9 +67,7 @@ public abstract class BenchmarkObject implements IBenchmarkObject {
         return false;
     }
 
-    public virtual DbTableInfo
-
-    GetTableInfo() {
+    public DbTableInfo GetTableInfo() {
         return new DbTableInfo();
     }
 }
