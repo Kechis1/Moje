@@ -4,32 +4,48 @@ import java.sql.Date;
 
 public class ExecutorMessage
 {
-    private Date dateTime = Date.Now;
+    private Date dateTime = Date.valueOf("now");
     private ExecutorMessageType messageType;
     private String message;
     private String statement;
 
-    public DateTime DateTime
+    public Date DateTime()
     {
-        get => dateTime;
-        set => dateTime = value;
+        return dateTime;
+    }
+    
+    public void DateTime(Date value)
+    {
+        dateTime = value;
     }
 
-    public ExecutorMessageType MessageType
+    public ExecutorMessageType MessageType()
     {
-        get => messageType;
-        set => messageType = value;
+        return messageType;
     }
 
-    public string Message
+    public void MessageType(ExecutorMessageType value)
     {
-        get => message;
-        set => message = value;
+        messageType = value;
     }
 
-    public string Statement
+    public String Message()
     {
-        get => statement;
-        set => statement = value;
+        return message;
+    }
+
+    public void Message(String value)
+    {
+        message = value;
+    }
+
+    public String Statement()
+    {
+        return statement;
+    }
+
+    public void Statement(String value)
+    {
+        statement = value;
     }
 }

@@ -3,93 +3,95 @@
     {
         private PlanEquivalenceTest planEquivalenceTest;
         private int id = 0;
-        private string number = string.Empty;
-        private string name = string.Empty;
-        private string description = string.Empty;
+        private String number = "";
+        private String name = "";
+        private String description = "";
 
         private Statement defaultStatement;
         private ObservableCollection<SpecificStatement> specificStatements;
         private ObservableCollection<SelectedAnnotation> selectedAnnotations = new ObservableCollection<SelectedAnnotation>();
 
-        public override IBenchmarkObject ParentObject => planEquivalenceTest;
+        @Override
+        public IBenchmarkObject ParentObject() {
+            return planEquivalenceTest;
+        }
 
-        public override IEnumerable<IBenchmarkObject> ChildObjects
+        @Override
+        public IEnumerable<IBenchmarkObject> ChildObjects()
         {
-            get
-            {
-                yield return defaultStatement;
+            yield return defaultStatement;
 
-                foreach (SpecificStatement specificStatement in specificStatements)
-                {
-                    yield return specificStatement;
-                }
-                foreach (SelectedAnnotation selectedAnnotation in selectedAnnotations)
-                {
-                    yield return selectedAnnotation;
-                }
+            for (SpecificStatement specificStatement : specificStatements)
+            {
+                yield return specificStatement;
+            }
+            for (SelectedAnnotation selectedAnnotation : selectedAnnotations)
+            {
+                yield return selectedAnnotation;
             }
         }
 
-        public PlanEquivalenceTest PlanEquivalenceTest
+        public PlanEquivalenceTest PlanEquivalenceTest()
         {
             return planEquivalenceTest;
         }
 
-        public int Id
+        public int Id()
         {
             return id;
         }
 
-        public string Number
+        public String Number()
         {
             return number;
-            set
+        }
+        public void Number(String value)
+        {
+            if (number != value)
             {
-                if (number != value)
-                {
-                    number = value;
-                    OnPropertyChanged("Number");
-                }
+                number = value;
+                OnPropertyChanged("Number");
             }
         }
 
-        public string Name
+        public String Name()
         {
             return name;
-            set
+        }
+        public void Name(String value)
+        {
+            if (name != value)
             {
-                if (name != value)
-                {
-                    name = value;
-                    OnPropertyChanged("Name");
-                }
+                name = value;
+                OnPropertyChanged("Name");
             }
         }
 
-        public string Description
+        public String Description()
         {
             return description;
-            set
+        }
+
+        public void Description(String value)
+        {
+            if (description != value)
             {
-                if (description != value)
-                {
-                    description = value;
-                    OnPropertyChanged("Description");
-                }
+                description = value;
+                OnPropertyChanged("Description");
             }
         }
 
-        public Statement DefaultStatement
+        public Statement DefaultStatement()
         {
             return defaultStatement;
         }
         
-        public ObservableCollection<SpecificStatement> SpecificStatements
+        public ObservableCollection<SpecificStatement> SpecificStatements()
         {
             return specificStatements;
         }
 
-        public ObservableCollection<SelectedAnnotation> SelectedAnnotations
+        public ObservableCollection<SelectedAnnotation> SelectedAnnotations()
         {
             return selectedAnnotations;
         }
@@ -102,9 +104,9 @@
             specificStatements = new ObservableCollection<SpecificStatement>();
         }
 
-        public Statement GetStatement(string providerName)
+        public Statement GetStatement(String providerName)
         {
-            foreach (SpecificStatement specificStatement in specificStatements)
+            for (SpecificStatement specificStatement : specificStatements)
             {
                 if (specificStatement.ProviderName == providerName)
                 {
@@ -115,7 +117,7 @@
             return defaultStatement;
         }
 
-        public boolean HasSpecificStatement(string providerName)
+        public boolean HasSpecificStatement(String providerName)
         {
             for (SpecificStatement specificStatement : specificStatements)
             {
@@ -139,7 +141,8 @@
             serializer.WriteCollection<SelectedAnnotation>("selected_annotations", "selected_annotation", selectedAnnotations);
         }
 
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             if (!serializer.ReadInt("id", ref id))
             {
@@ -159,16 +162,17 @@
                 delegate () { return new SelectedAnnotation(this); });
         }
 
-        public override DbTableInfo GetTableInfo()
+        @Override
+        public DbTableInfo GetTableInfo()
         {
             DbTableInfo ret = new DbTableInfo();
 
-            ret.TableName = "QueryVariant";
+            ret.TableName("QueryVariant");
 
-            ret.DbColumns.Add(new DbColumnInfo("Id", "query_variant_id", System.Data.DbType.Int32, true));
-            ret.DbColumns.Add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
-            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
-            ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+            ret.DbColumns().add(new DbColumnInfo("Id", "query_variant_id", System.Data.DbType.Int32, true));
+            ret.DbColumns().add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
+            ret.DbColumns().add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns().add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
 
             return ret;
         }

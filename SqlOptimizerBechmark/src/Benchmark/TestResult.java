@@ -4,91 +4,102 @@
         private TestRun testRun;
 
         private int testId;
-        private string testNumber = string.Empty;
-        private string testName = string.Empty;
+        private String testNumber = "";
+        private String testName = "";
         private int testGroupId;
         private int configurationId;
-        private string errorMessage = string.Empty;
+        private String errorMessage = "";
         
-        public override IBenchmarkObject ParentObject => testRun;
+        @Override
+        public IBenchmarkObject ParentObject() {
+            return testRun;
+        }
 
-        public TestRun TestRun => testRun;
+        public TestRun TestRun() {
+            return testRun;
+        }
 
-        public int TestId
+        public int TestId()
         {
-            get => testId;
-            set
+            return testId;
+        }
+
+        public void TestId(int value)
+        {
+            if (testId != value)
             {
-                if (testId != value)
-                {
-                    testId = value;
-                    OnPropertyChanged("TestId");
-                }
+                testId = value;
+                OnPropertyChanged("TestId");
             }
         }
         
-        public string TestNumber
+        public String TestNumber()
         {
-            get => testNumber;
-            set
+            return testNumber;
+        }
+
+        public void TestNumber(String value)
+        {
+            if (testNumber != value)
             {
-                if (testNumber != value)
-                {
-                    testNumber = value;
-                    OnPropertyChanged("TestNumber");
-                }
+                testNumber = value;
+                OnPropertyChanged("TestNumber");
             }
         }
 
-        public string TestName
+        public String TestName()
         {
-            get => testName;
-            set
+            return testName;
+        }
+
+        public void TestName(String value)
+        {
+            if (testName != value)
             {
-                if (testName != value)
-                {
-                    testName = value;
-                    OnPropertyChanged("TestName");
-                }
+                testName = value;
+                OnPropertyChanged("TestName");
             }
         }
 
-        public int TestGroupId
+        public int TestGroupId()
         {
-            get => testGroupId;
-            set
+            return testGroupId;
+        }
+
+        public void TestGroupId(int value)
+        {
+            if (testGroupId != value)
             {
-                if (testGroupId != value)
-                {
-                    testGroupId = value;
-                    OnPropertyChanged("TestGroupId");
-                }
+                testGroupId = value;
+                OnPropertyChanged("TestGroupId");
             }
         }
 
-        public int ConfigurationId
+        public int ConfigurationId()
         {
-            get => configurationId;
-            set
+            return configurationId;
+        }
+
+        public void ConfigurationId(int value)
+        {
+            if (configurationId != value)
             {
-                if (configurationId != value)
-                {
-                    configurationId = value;
-                    OnPropertyChanged("ConfigurationId");
-                }
+                configurationId = value;
+                OnPropertyChanged("ConfigurationId");
             }
         }
 
-        public string ErrorMessage
+        public String ErrorMessage()
         {
-            get => errorMessage;
-            set
+            return errorMessage;
+        }
+
+        public void ErrorMessage(String value)
+        {
+            if (errorMessage != value)
             {
-                if (errorMessage != value)
-                {
-                    errorMessage = value;
-                    OnPropertyChanged("ErrorMessage");
-                }
+                errorMessage = value;
+                OnPropertyChanged("ErrorMessage");
             }
         }
 
@@ -97,7 +108,8 @@
             this.testRun = testRun;
         }
 
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             serializer.ReadInt("test_id", ref testId);
             serializer.ReadString("test_number", ref testNumber);
@@ -107,7 +119,8 @@
             serializer.ReadString("error_message", ref errorMessage);
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("test_id", testId);
             serializer.WriteString("test_number", testNumber);
@@ -117,25 +130,26 @@
             serializer.WriteString("error_message", errorMessage);
         }
 
-        public virtual void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
+        public void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
         {
         }
 
-        public override DbTableInfo GetTableInfo()
+        @Override
+        public DbTableInfo GetTableInfo()
         {
-            DbTableInfo ret = base.GetTableInfo();
+            DbTableInfo ret = super.GetTableInfo();
 
-            ret.TableName = "TestResult";
+            ret.TableName("TestResult");
 
-            ret.DbColumns.Add(new DbColumnInfo("test_result_id", true, true)); // PK
-            ret.DbColumns.Add(new DbColumnInfo(null, "test_run_id", System.Data.DbType.Int32, true, "TestRun", "test_run_id")); // FK
+            ret.DbColumns().add(new DbColumnInfo("test_result_id", true, true)); // PK
+            ret.DbColumns().add(new DbColumnInfo(null, "test_run_id", System.Data.DbType.Int32, true, "TestRun", "test_run_id")); // FK
 
-            ret.DbColumns.Add(new DbColumnInfo("TestId", "test_id", System.Data.DbType.Int32, true, "Test", "test_id")); // FK
-            ret.DbColumns.Add(new DbColumnInfo("TestNumber", "test_number", System.Data.DbType.String, 20));
-            ret.DbColumns.Add(new DbColumnInfo("TestName", "test_name", System.Data.DbType.String, 50));
-            ret.DbColumns.Add(new DbColumnInfo("ErrorMessage", "error_message", System.Data.DbType.String, 1000));
-            ret.DbColumns.Add(new DbColumnInfo("TestGroupId", "test_group_id", System.Data.DbType.Int32, true, "TestGroup", "test_group_id")); // FK
-            ret.DbColumns.Add(new DbColumnInfo("ConfigurationId", "configuration_id", System.Data.DbType.Int32, true, "Configuration", "configuration_id")); // FK
+            ret.DbColumns().add(new DbColumnInfo("TestId", "test_id", System.Data.DbType.Int32, true, "Test", "test_id")); // FK
+            ret.DbColumns().add(new DbColumnInfo("TestNumber", "test_number", System.Data.DbType.String, 20));
+            ret.DbColumns().add(new DbColumnInfo("TestName", "test_name", System.Data.DbType.String, 50));
+            ret.DbColumns().add(new DbColumnInfo("ErrorMessage", "error_message", System.Data.DbType.String, 1000));
+            ret.DbColumns().add(new DbColumnInfo("TestGroupId", "test_group_id", System.Data.DbType.Int32, true, "TestGroup", "test_group_id")); // FK
+            ret.DbColumns().add(new DbColumnInfo("ConfigurationId", "configuration_id", System.Data.DbType.Int32, true, "Configuration", "configuration_id")); // FK
 
             return ret;
         }

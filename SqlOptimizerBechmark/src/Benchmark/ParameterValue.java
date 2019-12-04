@@ -84,11 +84,11 @@
         {
             DbTableInfo ret = GetTableInfo();
 
-            ret.TableName = "ParameterValue";
+            ret.TableName("ParameterValue");
 
-            ret.DbColumns.add(new DbColumnInfo("TemplateId", "template_id", System.Data.DbType.Int32, true, "Template", "template_id"));
-            ret.DbColumns.add(new DbColumnInfo("ParameterId", "parameter_id", System.Data.DbType.Int32, true, "Parameter", "parameter_id"));
-            ret.DbColumns.add(new DbColumnInfo("Value", "value", System.Data.DbType.String, 100));
+            ret.DbColumns().add(new DbColumnInfo("TemplateId", "template_id", System.Data.DbType.Int32, true, "Template", "template_id"));
+            ret.DbColumns().add(new DbColumnInfo("ParameterId", "parameter_id", System.Data.DbType.Int32, true, "Parameter", "parameter_id"));
+            ret.DbColumns().add(new DbColumnInfo("Value", "value", System.Data.DbType.String, 100));
 
             return ret;
         }

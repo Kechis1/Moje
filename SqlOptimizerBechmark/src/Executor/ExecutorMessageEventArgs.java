@@ -4,10 +4,13 @@ public class ExecutorMessageEventArgs extends EventArgs
 {
     private ExecutorMessage message;
 
-    public ExecutorMessage Message
+    public ExecutorMessage Message()
     {
-        get => message;
-        set => message = value;
+        return message;
+    }
+    public void Message(ExecutorMessage value)
+    {
+        message = value;
     }
 
     public ExecutorMessageEventArgs(ExecutorMessage message)

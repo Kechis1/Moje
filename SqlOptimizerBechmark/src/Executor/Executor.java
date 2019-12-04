@@ -1,35 +1,43 @@
 ﻿package Executor;
 
+import Benchmark.Benchmark;
+
 public class Executor {
     private static Executor instance = new Executor();
     private Benchmark benchmark;
     private TestRun testRun;
     private Thread testingThread = null;
-    private boolean runInitScript = true;
-    private boolean runCleanUpScript = true;
-    private boolean checkResultSizes = true;
-    private boolean compareResults = true;
+    private booleanean runInitScript = true;
+    private booleanean runCleanUpScript = true;
+    private booleanean checkResultSizes = true;
+    private booleanean compareResults = true;
     private String testRunName;
     private int queryRuns = 1;
     private int testLoops = 1;
     private int currentLoop = 0;
-    private boolean closeOnComplete = false;
+    private booleanean closeOnComplete = false;
 
 
     private String GetExecutorInfoStr() {
         return "runInitScript=" + runInitScript + "|runCleanUpScript=" + runCleanUpScript + "|checkResultSizes=" + checkResultSizes + "|compareResults=" + compareResults + "|queryRuns=" + queryRuns;
     }
 
-    private volatile boolean stopTesting = false;
-    private volatile boolean interruptTesting = false;
+    private volatile booleanean stopTesting = false;
+    private volatile booleanean interruptTesting = false;
 
     public static Executor Instance = instance;
 
-    public Benchmark Benchmark =>benchmark;
+    public Benchmark Benchmark() {
+        return benchmark;
+    }
 
-    public TestRun TestRun =>testRun;
+    public TestRun TestRun() {
+        return testRun;
+    }
 
-    public boolean Testing =>testingThread !=null;
+    public booleanean Testing() {
+        return testingThread != null;
+    }
 
 
     public event EventHandler<ExecutorMessageEventArgs>Message;
@@ -102,10 +110,10 @@ public class Executor {
     /// </summary>
     /// <param name="planEquivalenceTest"></param>
     /// <returns></returns>
-    private bool IgnoreTest(Benchmark.PlanEquivalenceTest planEquivalenceTest) {
-        foreach(Benchmark.SelectedAnnotation selectedAnnotation in planEquivalenceTest.SelectedAnnotations)
+    private boolean IgnoreTest(Benchmark.PlanEquivalenceTest planEquivalenceTest) {
+        for(Benchmark.SelectedAnnotation selectedAnnotation : planEquivalenceTest.SelectedAnnotations)
         {
-            foreach(Benchmark.SelectedAnnotation ignoreAnnotation in Benchmark.TestRunSettings.IgnoreAnnotations)
+            for(Benchmark.SelectedAnnotation ignoreAnnotation : Benchmark.TestRunSettings.IgnoreAnnotations)
             {
                 if (selectedAnnotation.AnnotationId == ignoreAnnotation.AnnotationId) {
                     return true;
@@ -120,10 +128,10 @@ public class Executor {
     /// </summary>
     /// <param name="variant"></param>
     /// <returns></returns>
-    private bool IgnoreVariant(Benchmark.QueryVariant variant) {
-        foreach(Benchmark.SelectedAnnotation selectedAnnotation in variant.SelectedAnnotations)
+    private boolean IgnoreVariant(Benchmark.QueryVariant variant) {
+        for(Benchmark.SelectedAnnotation selectedAnnotation : variant.SelectedAnnotations)
         {
-            foreach(Benchmark.SelectedAnnotation ignoreAnnotation in Benchmark.TestRunSettings.IgnoreAnnotations)
+            for(Benchmark.SelectedAnnotation ignoreAnnotation : Benchmark.TestRunSettings.IgnoreAnnotations)
             {
                 if (selectedAnnotation.AnnotationId == ignoreAnnotation.AnnotationId) {
                     return true;
@@ -133,10 +141,10 @@ public class Executor {
         return false;
     }
 
-    private bool IgnoreTemplate(Benchmark.Template template) {
-        foreach(Benchmark.SelectedAnnotation selectedAnnotation in template.SelectedAnnotations)
+    private boolean IgnoreTemplate(Benchmark.Template template) {
+        for(Benchmark.SelectedAnnotation selectedAnnotation : template.SelectedAnnotations)
         {
-            foreach(Benchmark.SelectedAnnotation ignoreAnnotation in Benchmark.TestRunSettings.IgnoreAnnotations)
+            for(Benchmark.SelectedAnnotation ignoreAnnotation : Benchmark.TestRunSettings.IgnoreAnnotations)
             {
                 if (selectedAnnotation.AnnotationId == ignoreAnnotation.AnnotationId) {
                     return true;
@@ -160,7 +168,7 @@ public class Executor {
             planEquivalenceTestResult.TemplateNumber = template.Number;
         }
 
-        foreach(Benchmark.QueryVariant variant in planEquivalenceTest.Variants)
+        for(Benchmark.QueryVariant variant : planEquivalenceTest.Variants)
         {
             if (IgnoreVariant(variant)) {
                 continue;
@@ -177,7 +185,7 @@ public class Executor {
                 }
             }
 
-            foreach(Benchmark.SelectedAnnotation selectedAnnotation in variant.SelectedAnnotations)
+            for(Benchmark.SelectedAnnotation selectedAnnotation : variant.SelectedAnnotations)
             {
                 Benchmark.SelectedAnnotationResult selectedAnnotationResult = new Benchmark.SelectedAnnotationResult(queryVariantResult);
                 selectedAnnotationResult.AnnotationId = selectedAnnotation.AnnotationId;
@@ -187,7 +195,7 @@ public class Executor {
             string commandText = statement.CommandText;
             if (template != null) {
                 // Parametrized template substitution.
-                foreach(Benchmark.Parameter parameter in planEquivalenceTest.Parameters)
+                for(Benchmark.Parameter parameter : planEquivalenceTest.Parameters)
                 {
                     Benchmark.ParameterValue parameterValue =
                             planEquivalenceTest.ParameterValues.Where(pv = > pv.ParameterId == parameter.Id && pv.TemplateId == template.Id).
@@ -223,14 +231,14 @@ public class Executor {
             planEquivalenceTestResult.QueryVariantResults.Add(queryVariantResult);
         }
 
-        foreach(Benchmark.SelectedAnnotation selectedAnnotation in planEquivalenceTest.SelectedAnnotations)
+        for(Benchmark.SelectedAnnotation selectedAnnotation : planEquivalenceTest.SelectedAnnotations)
         {
             Benchmark.SelectedAnnotationResult selectedAnnotationResult = new Benchmark.SelectedAnnotationResult(planEquivalenceTestResult);
             selectedAnnotationResult.AnnotationId = selectedAnnotation.AnnotationId;
             planEquivalenceTestResult.SelectedAnnotationResults.Add(selectedAnnotationResult);
         }
         if (template != null) {
-            foreach(Benchmark.SelectedAnnotation selectedAnnotation in template.SelectedAnnotations)
+            for(Benchmark.SelectedAnnotation selectedAnnotation : template.SelectedAnnotations)
             {
                 Benchmark.SelectedAnnotationResult selectedAnnotationResult = new Benchmark.SelectedAnnotationResult(planEquivalenceTestResult);
                 selectedAnnotationResult.AnnotationId = selectedAnnotation.AnnotationId;
@@ -262,7 +270,7 @@ public class Executor {
         testRun.ExecutorInfo = this.GetExecutorInfoStr();
         testRun.SettingsInfo = db.GetSettingsInfo();
 
-        foreach(Benchmark.TestGroup testGroup in benchmark.TestGroups)
+        for(Benchmark.TestGroup testGroup : benchmark.TestGroups)
         {
             Benchmark.TestGroupResult testGroupResult = new Benchmark.TestGroupResult(testRun);
             testGroupResult.TestGroupId = testGroup.Id;
@@ -270,7 +278,7 @@ public class Executor {
             testGroupResult.TestGroupName = testGroup.Name;
             testRun.TestGroupResults.Add(testGroupResult);
 
-            foreach(Benchmark.Configuration configuration in testGroup.Configurations)
+            for(Benchmark.Configuration configuration : testGroup.Configurations)
             {
                 Benchmark.ConfigurationResult configurationResult = new Benchmark.ConfigurationResult(testRun);
                 configurationResult.ConfigurationId = configuration.Id;
@@ -278,7 +286,7 @@ public class Executor {
                 configurationResult.ConfigurationName = configuration.Name;
                 testRun.ConfigurationResults.Add(configurationResult);
 
-                foreach(Benchmark.Test test in testGroup.Tests)
+                for(Benchmark.Test test : testGroup.Tests)
                 {
                     if (!test.Active) {
                         continue;
@@ -291,7 +299,7 @@ public class Executor {
                         }
 
                         if (planEquivalenceTest.Parametrized) {
-                            foreach(Benchmark.Template template in planEquivalenceTest.Templates)
+                            for(Benchmark.Template template : planEquivalenceTest.Templates)
                             {
                                 if (IgnoreTemplate(template)) {
                                     continue;
@@ -308,7 +316,7 @@ public class Executor {
             }
         }
 
-        foreach(Benchmark.Annotation annotation in benchmark.Annotations)
+        for(Benchmark.Annotation annotation : benchmark.Annotations)
         {
             Benchmark.AnnotationResult annotationResult = new Benchmark.AnnotationResult(testRun);
             annotationResult.AnnotationId = annotation.Id;
@@ -320,11 +328,11 @@ public class Executor {
         benchmark.TestRuns.Add(testRun);
     }
 
-    private bool CheckResultsEquality(IEnumerable<DataTable> results) {
+    private boolean CheckResultsEquality(IEnumerable<DataTable> results) {
         // First, make sure that the tables have the same number of rows and columns.
         int rowCount = -1;
         int columnCount = -1;
-        foreach(DataTable result in results)
+        for(DataTable result : results)
         {
             if (rowCount == -1) {
                 rowCount = result.Rows.Count;
@@ -347,7 +355,7 @@ public class Executor {
             }
             sortExpr += columnName + " ASC";
 
-            foreach(DataTable result in results)
+            for(DataTable result : results)
             {
                 result.Columns[columnIndex].ColumnName = columnName;
             }
@@ -355,7 +363,7 @@ public class Executor {
 
         // Prepare sorted views.
         List<DataView> dataViews = new List<DataView>();
-        foreach(DataTable result in results)
+        for(DataTable result : results)
         {
             DataView dataView = new DataView(result);
             dataView.Sort = sortExpr;
@@ -367,7 +375,7 @@ public class Executor {
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
                 object val1 = null;
 
-                foreach(DataView dataView in dataViews)
+                for(DataView dataView : dataViews)
                 {
                     object val2 = dataView[rowIndex][columnIndex];
 
@@ -388,7 +396,7 @@ public class Executor {
 
     /// <summary>
     /// Computes the average time span.
-    /// If there are more than 2 timespans in the list, the best and the worst case are ignored.
+    /// If there are more than 2 timespans : the list, the best and the worst case are ignored.
     /// </summary>
     /// <param name="timeSpans"></param>
     /// <returns></returns>
@@ -436,7 +444,7 @@ public class Executor {
                 db.OnBeforeInitScript();
 
                 Benchmark.StatementList initScriptStatements = benchmark.InitScript.GetStatementList(db.Name);
-                foreach(Benchmark.Statement statement in initScriptStatements.Statements)
+                for(Benchmark.Statement statement : initScriptStatements.Statements)
                 {
                     if (interruptTesting) {
                         testingThread = null;
@@ -471,7 +479,7 @@ public class Executor {
             }
 
             try {
-                foreach(Benchmark.TestGroup testGroup in benchmark.TestGroups)
+                for(Benchmark.TestGroup testGroup : benchmark.TestGroups)
                 {
                     if (interruptTesting) {
                         testingThread = null;
@@ -482,8 +490,8 @@ public class Executor {
                         break;
                     }
 
-                    bool activeTests = false;
-                    foreach(Benchmark.Test test in testGroup.Tests)
+                    boolean activeTests = false;
+                    for(Benchmark.Test test : testGroup.Tests)
                     {
                         if (test.Active) {
                             activeTests = true;
@@ -492,7 +500,7 @@ public class Executor {
                     }
 
                     if (activeTests) {
-                        foreach(Benchmark.Configuration configuration in testGroup.Configurations)
+                        for(Benchmark.Configuration configuration : testGroup.Configurations)
                         {
                             if (interruptTesting) {
                                 testingThread = null;
@@ -504,7 +512,7 @@ public class Executor {
                             }
 
                             Benchmark.ConfigurationResult currentConfigurationResult = null;
-                            foreach(Benchmark.ConfigurationResult configurationResult in testRun.ConfigurationResults)
+                            for(Benchmark.ConfigurationResult configurationResult : testRun.ConfigurationResults)
                             {
                                 if (configurationResult.ConfigurationId == configuration.Id) {
                                     currentConfigurationResult = configurationResult;
@@ -519,7 +527,7 @@ public class Executor {
                                 currentConfigurationResult.InitScriptStarted = true;
 
                                 Benchmark.StatementList configurationInitScriptStatements = configuration.InitScript.GetStatementList(db.Name);
-                                foreach(Benchmark.Statement statement in configurationInitScriptStatements.Statements)
+                                for(Benchmark.Statement statement : configurationInitScriptStatements.Statements)
                                 {
                                     if (interruptTesting) {
                                         testingThread = null;
@@ -555,7 +563,7 @@ public class Executor {
 
                                 db.OnAfterConfigurationInitScript(configuration);
 
-                                foreach(Benchmark.Test test in testGroup.Tests)
+                                for(Benchmark.Test test : testGroup.Tests)
                                 {
                                     try {
                                         if (!test.Active) {
@@ -571,7 +579,7 @@ public class Executor {
                                             break;
                                         }
 
-                                        foreach(Benchmark.TestResult testResult in testRun.TestResults)
+                                        for(Benchmark.TestResult testResult : testRun.TestResults)
                                         {
                                             if (testResult.TestId == test.Id &&
                                                     testResult.ConfigurationId == configuration.Id) {
@@ -587,7 +595,7 @@ public class Executor {
 
                                                         List<DataTable> results = new List<DataTable>();
 
-                                                        foreach(Benchmark.QueryVariantResult queryVariantResult in planEquivalenceTestResult.QueryVariantResults)
+                                                        for(Benchmark.QueryVariantResult queryVariantResult : planEquivalenceTestResult.QueryVariantResults)
                                                         {
                                                             try {
                                                                 if (interruptTesting) {
@@ -694,7 +702,7 @@ public class Executor {
                                 currentConfigurationResult.CleanUpScriptStarted = true;
 
                                 Benchmark.StatementList configurationCleanUpScriptStatements = configuration.CleanUpScript.GetStatementList(db.Name);
-                                foreach(Benchmark.Statement statement in configurationCleanUpScriptStatements.Statements)
+                                for(Benchmark.Statement statement : configurationCleanUpScriptStatements.Statements)
                                 {
                                     if (interruptTesting) {
                                         testingThread = null;
@@ -755,7 +763,7 @@ public class Executor {
                 db.OnBeforeCleanUpScript();
 
                 Benchmark.StatementList cleanUpScriptStatements = benchmark.CleanUpScript.GetStatementList(db.Name);
-                foreach(Benchmark.Statement statement in cleanUpScriptStatements.Statements)
+                for(Benchmark.Statement statement : cleanUpScriptStatements.Statements)
                 {
                     if (interruptTesting) {
                         testingThread = null;
@@ -847,7 +855,7 @@ public class Executor {
         StartTesting();
     }
 
-    public void LaunchTest(Benchmark.Benchmark benchmark, bool skipDialog =false) {
+    public void LaunchTest(Benchmark.Benchmark benchmark, boolean skipDialog =false) {
         this.benchmark = benchmark;
 
         if (benchmark.ConnectionSettings.DbProvider == null) {

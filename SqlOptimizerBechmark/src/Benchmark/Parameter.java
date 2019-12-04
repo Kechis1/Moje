@@ -3,29 +3,33 @@
     {
         private PlanEquivalenceTest planEquivalenceTest;
         private int id = 0;
-        private string name = string.Empty;
+        private String name = "";
 
-        public override IBenchmarkObject ParentObject => planEquivalenceTest;
-
-        public PlanEquivalenceTest PlanEquivalenceTest
-        {
-            get => planEquivalenceTest;
-        }
-        public int Id
-        {
-            get => id;
+        @Override
+        public IBenchmarkObject ParentObject() {
+            return planEquivalenceTest;
         }
 
-        public string Name
+        public PlanEquivalenceTest PlanEquivalenceTest()
         {
-            get => name;
-            set
+            return planEquivalenceTest;
+        }
+        public int Id()
+        {
+            return id;
+        }
+
+        public String Name()
+        {
+            return name;
+        }
+
+        public void Name(String value)
+        {
+            if (name != value)
             {
-                if (name != value)
-                {
-                    name = value;
-                    OnPropertyChanged("Name");
-                }
+                name = value;
+                OnPropertyChanged("Name");
             }
         }
 
@@ -35,8 +39,8 @@
             this.planEquivalenceTest = planEquivalenceTest;
         }
 
-
-        public override void LoadFromXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             if (!serializer.ReadInt("id", ref id))
             {
@@ -45,19 +49,21 @@
             serializer.ReadString("name", ref name);
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        @Override
+        public void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("id", id);
             serializer.WriteString("name", name);
         }
 
-        public override DbTableInfo GetTableInfo()
+        @Override
+        public DbTableInfo GetTableInfo()
         {
-            DbTableInfo ret = base.GetTableInfo();
+            DbTableInfo ret = super.GetTableInfo();
 
-            ret.TableName = "Parameter";
-            ret.DbColumns.Add(new DbColumnInfo("Id", "parameter_id", System.Data.DbType.Int32, true));
-            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.TableName("Parameter");
+            ret.DbColumns().add(new DbColumnInfo("Id", "parameter_id", System.Data.DbType.Int32, true));
+            ret.DbColumns().add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
 
             return ret;
         }
