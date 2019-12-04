@@ -1,18 +1,23 @@
 ﻿package Benchmark;
-    public class TestRun extends BenchmarkObject implements IIdentifiedBenchmarkObject, INamedBenchmarkObject
+
+import javafx.collections.ObservableList;
+
+import java.util.Date;
+
+public class TestRun extends BenchmarkObject implements IIdentifiedBenchmarkObject, INamedBenchmarkObject
     {
         private Benchmark benchmark;
         private int id;
         private String name = "";
-        private DateTime startDate = DateTime.MinValue;
-        private DateTime endDate = DateTime.MinValue;
+        private Date startDate = Date.MinValue;
+        private Date endDate = Date.MinValue;
         private String settingsInfo = "";
         private String executorInfo = "";
 
-        private ObservableCollection<TestGroupResult> testGroupResults = new ObservableCollection<TestGroupResult>();
-        private ObservableCollection<ConfigurationResult> configurationResults = new ObservableCollection<ConfigurationResult>();
-        private ObservableCollection<AnnotationResult> annotationResults = new ObservableCollection<AnnotationResult>();
-        private ObservableCollection<TestResult> testResults = new ObservableCollection<TestResult>();
+        private ObservableList<TestGroupResult> testGroupResults = new ObservableList<TestGroupResult>();
+        private ObservableList<ConfigurationResult> configurationResults = new ObservableList<ConfigurationResult>();
+        private ObservableList<AnnotationResult> annotationResults = new ObservableList<AnnotationResult>();
+        private ObservableList<TestResult> testResults = new ObservableList<TestResult>();
 
         public IBenchmarkObject ParentObject() {
             return benchmark;
@@ -62,12 +67,12 @@
             }     
         }
 
-        public DateTime StartDate()
+        public Date StartDate()
         {
             return startDate; 
         }
 
-        public void StartDate(DateTime value)
+        public void StartDate(Date value)
         {
             if (startDate != value)
             {
@@ -76,12 +81,12 @@
             }
         }
 
-        public DateTime EndDate()
+        public Date EndDate()
         {
             return endDate; 
         }
 
-        public void EndDate(DateTime value)
+        public void EndDate(Date value)
         {
             if (endDate != value)
             {
@@ -118,13 +123,13 @@
             }
         }
 
-        public ObservableCollection<TestGroupResult> TestGroupResults => testGroupResults;
+        public ObservableList<TestGroupResult> TestGroupResults => testGroupResults;
 
-        public ObservableCollection<ConfigurationResult> ConfigurationResults => configurationResults;
+        public ObservableList<ConfigurationResult> ConfigurationResults => configurationResults;
 
-        public ObservableCollection<AnnotationResult> AnnotationResults => annotationResults;
+        public ObservableList<AnnotationResult> AnnotationResults => annotationResults;
 
-        public ObservableCollection<TestResult> TestResults => testResults;
+        public ObservableList<TestResult> TestResults => testResults;
 
 
         public TestRun(Benchmark benchmark)
@@ -152,8 +157,8 @@
         {
             serializer.ReadInt("id", ref id);
             serializer.ReadString("name", ref name);
-            serializer.ReadDateTime("start_date", ref startDate);
-            serializer.ReadDateTime("end_date", ref endDate);
+            serializer.ReadDate("start_date", ref startDate);
+            serializer.ReadDate("end_date", ref endDate);
             serializer.ReadString("settings_info", ref settingsInfo);
             serializer.ReadString("executor_info", ref executorInfo);
 
@@ -174,8 +179,8 @@
         {
             serializer.WriteInt("id", id);
             serializer.WriteString("name", name);
-            serializer.WriteDateTime("start_date", startDate);
-            serializer.WriteDateTime("end_date", endDate);
+            serializer.WriteDate("start_date", startDate);
+            serializer.WriteDate("end_date", endDate);
             serializer.WriteString("settings_info", settingsInfo);
             serializer.WriteString("executor_info", executorInfo);
             serializer.WriteCollection<ConfigurationResult>("configuration_results", "configuration_result", configurationResults);
@@ -224,8 +229,8 @@
             ret.DbColumns().add(new DbColumnInfo(null, "benchmark_id", System.Data.DbType.Int32, true, "Benchmark", "benchmark_id")); // FK
 
             ret.DbColumns().add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
-            ret.DbColumns().add(new DbColumnInfo("StartDate", "start_date", System.Data.DbType.DateTime));
-            ret.DbColumns().add(new DbColumnInfo("EndDate", "end_date", System.Data.DbType.DateTime));
+            ret.DbColumns().add(new DbColumnInfo("StartDate", "start_date", System.Data.DbType.Date));
+            ret.DbColumns().add(new DbColumnInfo("EndDate", "end_date", System.Data.DbType.Date));
             ret.DbColumns().add(new DbColumnInfo("SettingsInfo", "settings_info", System.Data.DbType.String, 300));
             ret.DbColumns().add(new DbColumnInfo("ExecutorInfo", "executor_info", System.Data.DbType.String, 300));
 

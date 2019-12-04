@@ -38,10 +38,17 @@ public class DbDependentTableInfo {
         oneToOne = value;
     }
 
-    public DbDependentTableInfo(String property, String dbTableName, String dbFkColumn, boolean oneToOne = false) {
+    public DbDependentTableInfo(String property, String dbTableName, String dbFkColumn, boolean oneToOne) {
         this.property = property;
         this.dbTableName = dbTableName;
         this.dbFkColumn = dbFkColumn;
         this.oneToOne = oneToOne;
+    }
+
+    public DbDependentTableInfo(String property, String dbTableName, String dbFkColumn) {
+        this.property = property;
+        this.dbTableName = dbTableName;
+        this.dbFkColumn = dbFkColumn;
+        this.oneToOne = false;
     }
 }

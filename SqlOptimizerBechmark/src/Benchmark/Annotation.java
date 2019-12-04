@@ -65,25 +65,25 @@ public class Annotation extends BenchmarkObject implements IIdentifiedBenchmarkO
     }
 
     public void LoadFromXml(BenchmarkXmlSerializer serializer) {
-        if (!serializer.ReadInt("id", ref id)) {
+        if (!serializer.ReadInt("id", id)) {
             id = benchmark.GenerateId();
         }
-        serializer.ReadString("number", ref number);
-        serializer.ReadString("name", ref name);
-        serializer.ReadString("description", ref description);
+        serializer.ReadString("number", number);
+        serializer.ReadString("name", name);
+        serializer.ReadString("description", description);
     }
 
     public DbTableInfo GetTableInfo() {
         DbTableInfo ret = super.GetTableInfo();
 
-        ret.TableName = "Annotation";
+        ret.TableName("Annotation");
 
-        ret.DbColumns.add(new DbColumnInfo("Id", "annotation_id", System.Data.DbType.Int32, true)); // PK
-        ret.DbColumns.add(new DbColumnInfo(null, "benchmark_id", System.Data.DbType.Int32, true, "Benchmark", "benchmark_id")); // FK
+        ret.DbColumns().add(new DbColumnInfo("Id", "annotation_id", System.Data.DbType.Int32, true)); // PK
+        ret.DbColumns().add(new DbColumnInfo(null, "benchmark_id", System.Data.DbType.Int32, true, "Benchmark", "benchmark_id")); // FK
 
-        ret.DbColumns.add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
-        ret.DbColumns.add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
-        ret.DbColumns.add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+        ret.DbColumns().add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
+        ret.DbColumns().add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+        ret.DbColumns().add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
 
         return ret;
     }

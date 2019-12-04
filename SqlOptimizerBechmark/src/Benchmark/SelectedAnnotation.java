@@ -30,7 +30,7 @@
         @Override
         public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
-            serializer.ReadInt("annotation_id", ref annotationId);
+            serializer.ReadInt("annotation_id", annotationId);
         }
 
         @Override
@@ -44,9 +44,9 @@
         {
             DbTableInfo ret = super.GetTableInfo();
 
-            ret.TableName = "SelectedAnnotation";
+            ret.TableName("SelectedAnnotation");
 
-            ret.DbColumns.Add(new DbColumnInfo("AnnotationId", "annotation_id", System.Data.DbType.Int32, true, "Annotation", "annotation_id"));
+            ret.DbColumns().add(new DbColumnInfo("AnnotationId", "annotation_id", System.Data.DbType.Int32, true, "Annotation", "annotation_id"));
 
             return ret;
         }

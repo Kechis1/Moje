@@ -1,6 +1,8 @@
 ﻿package Benchmark;
 
-    public class Benchmark extends BenchmarkObject implements INamedBenchmarkObject, IDescribedBenchmarkObject
+import java.util.Stack;
+
+public class Benchmark extends BenchmarkObject implements INamedBenchmarkObject, IDescribedBenchmarkObject
     {
         private String name = "";
         private String author = "";
@@ -174,18 +176,18 @@
         public IIdentifiedBenchmarkObject FindObjectById(int id)
         {
             Stack<IBenchmarkObject> stack = new Stack<IBenchmarkObject>();
-            stack.Push(this);
-            while (stack.Count > 0)
+            stack.push(this);
+            while (stack.size() > 0)
             {
-                IBenchmarkObject obj = stack.Pop();
+                IBenchmarkObject obj = stack.pop();
                 if (obj is IIdentifiedBenchmarkObject identifiedBenchmarkObject &&
                     identifiedBenchmarkObject.Id == id)
                 {
                     return identifiedBenchmarkObject;
                 }
-                foreach (IBenchmarkObject child in obj.ChildObjects)
+                for (IBenchmarkObject child : obj.ChildObjects)
                 {
-                    stack.Push(child);
+                    stack.push(child);
                 }
             }
             return null;
@@ -200,14 +202,14 @@
         {
             DbTableInfo ret = new DbTableInfo("Benchmark");
 
-            ret.DbColumns.Add(new DbColumnInfo("Id", "benchmark_id", System.Data.DbType.Int32, true));
-            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
-            ret.DbColumns.Add(new DbColumnInfo("Author", "author", System.Data.DbType.String, 200));
-            ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+            ret.DbColumns().add(new DbColumnInfo("Id", "benchmark_id", System.Data.DbType.Int32, true));
+            ret.DbColumns().add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns().add(new DbColumnInfo("Author", "author", System.Data.DbType.String, 200));
+            ret.DbColumns().add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
 
-            ret.DbDependentTables.Add(new DbDependentTableInfo("TestGroups", "TestGroup", "benchmark_id"));
-            ret.DbDependentTables.Add(new DbDependentTableInfo("TestRuns", "TestRun", "benchmark_id"));
-            ret.DbDependentTables.Add(new DbDependentTableInfo("Annotations", "Annotation", "benchmark_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("TestGroups", "TestGroup", "benchmark_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("TestRuns", "TestRun", "benchmark_id"));
+            ret.DbDependentTables().add(new DbDependentTableInfo("Annotations", "Annotation", "benchmark_id"));
 
             return ret;
         }

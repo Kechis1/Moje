@@ -27,7 +27,7 @@ public class BenchmarkXmlSerializer
         currentElement.Add(element);
     }
 
-    public void WriteBool(String name, bool value)
+    public void WriteBool(String name, boolean value)
     {
         XElement element = new XElement(name);
         element.Value = Convert.ToString(value);
@@ -83,7 +83,7 @@ public class BenchmarkXmlSerializer
         currentElement = oldCurrent;
     }
 
-    public bool ReadString(String name, ref String value)
+    public boolean ReadString(String name, String value)
     {
         XElement element = currentElement.Element(name);
         if (element != null)
@@ -97,7 +97,7 @@ public class BenchmarkXmlSerializer
         }
     }
 
-    public bool ReadInt(String name, ref int value)
+    public boolean ReadInt(String name, int value)
     {
         XElement element = currentElement.Element(name);
         if (element != null)
@@ -111,12 +111,12 @@ public class BenchmarkXmlSerializer
         return false;
     }
 
-    public bool ReadBool(String name, ref bool value)
+    public boolean ReadBool(String name, ref boolean value)
     {
         XElement element = currentElement.Element(name);
         if (element != null)
         {
-            if (bool.TryParse(element.Value, out value))
+            if (boolean.TryParse(element.Value, out value))
             {
                 return true;
             }
@@ -125,7 +125,7 @@ public class BenchmarkXmlSerializer
         return false;
     }
 
-    public bool ReadDouble(String name, ref double value)
+    public boolean ReadDouble(String name, ref double value)
     {
         XElement element = currentElement.Element(name);
         if (element != null)
@@ -138,7 +138,7 @@ public class BenchmarkXmlSerializer
         return false;
     }
 
-    public bool ReadDateTime(String name, ref DateTime value)
+    public boolean ReadDateTime(String name, ref DateTime value)
     {
         XElement element = currentElement.Element(name);
         if (element != null)
@@ -153,7 +153,7 @@ public class BenchmarkXmlSerializer
         return false;
     }
 
-    public bool ReadTimeSpan(String name, ref TimeSpan value)
+    public boolean ReadTimeSpan(String name, ref TimeSpan value)
     {
         double seconds = 0;
         if (ReadDouble(name, ref seconds))
@@ -167,7 +167,7 @@ public class BenchmarkXmlSerializer
         }
     }
 
-    public bool ReadObject(String name, BenchmarkObject benchmarkObject)
+    public boolean ReadObject(String name, BenchmarkObject benchmarkObject)
     {
         if (currentElement.Element(name) != null)
         {
@@ -181,7 +181,7 @@ public class BenchmarkXmlSerializer
         return false;
     }
 
-    public bool ReadCollection<T>(String collectionName, String itemName, ObservableCollection<T> collection, InstantiateBenchmarkObjectDelegate<T> instantiateBenchmarkObject)
+    public boolean ReadCollection<T>(String collectionName, String itemName, ObservableCollection<T> collection, InstantiateBenchmarkObjectDelegate<T> instantiateBenchmarkObject)
         where T: BenchmarkObject
     {
         if (currentElement.Element(collectionName) != null)

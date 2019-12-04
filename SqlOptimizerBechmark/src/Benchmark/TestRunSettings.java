@@ -1,5 +1,7 @@
 ﻿package Benchmark;
 
+import javafx.collections.ObservableList;
+
 public class TestRunSettings extends BenchmarkObject {
     private Benchmark benchmark;
 
@@ -12,7 +14,7 @@ public class TestRunSettings extends BenchmarkObject {
     private boolean runCleanUpScript = true;
     private boolean checkResultSizes = true;
     private boolean compareResults = true;
-    private ObservableCollection<SelectedAnnotation> ignoreAnnotations = new ObservableCollection<SelectedAnnotation>();
+    private ObservableList<SelectedAnnotation> ignoreAnnotations = new ObservableList<SelectedAnnotation>();
     private int queryRuns = 1;
     private int testLoops = 1;
     private boolean closeOnComplete = false;
@@ -98,7 +100,7 @@ public class TestRunSettings extends BenchmarkObject {
             }
     }
 
-    public ObservableCollection<SelectedAnnotation> IgnoreAnnotations()
+    public ObservableList<SelectedAnnotation> IgnoreAnnotations()
     {
         return ignoreAnnotations;
     }

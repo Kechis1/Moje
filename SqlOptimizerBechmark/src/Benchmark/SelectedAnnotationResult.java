@@ -53,8 +53,8 @@
         @Override
         public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
-            serializer.ReadInt("annotation_id", ref annotationId);
-            serializer.ReadBool("is_template_annotation", ref isTemplateAnnotation);
+            serializer.ReadInt("annotation_id",  annotationId);
+            serializer.ReadBool("is_template_annotation",  isTemplateAnnotation);
         }
 
         @Override

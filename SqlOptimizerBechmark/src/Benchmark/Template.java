@@ -2,7 +2,7 @@
 
 public class Template extends BenchmarkObject implements IIdentifiedBenchmarkObject, INumberedBenchmarkObject {
     private PlanEquivalenceTest planEquivalenceTest;
-    private ObservableCollection<SelectedAnnotation> selectedAnnotations = new ObservableCollection<SelectedAnnotation>();
+    private ObservableList<SelectedAnnotation> selectedAnnotations = new ObservableList<SelectedAnnotation>();
 
     private int id = 0;
     private String number = "";
@@ -54,7 +54,7 @@ public class Template extends BenchmarkObject implements IIdentifiedBenchmarkObj
         }
     }
 
-    public ObservableCollection<SelectedAnnotation> SelectedAnnotations() {
+    public ObservableList<SelectedAnnotation> SelectedAnnotations() {
         return selectedAnnotations;
     }
 

@@ -42,11 +42,11 @@
         @Override
         public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
-            if (!serializer.ReadInt("id", ref id))
+            if (!serializer.ReadInt("id", id))
             {
                 id = planEquivalenceTest.Owner.GenerateId();
             }
-            serializer.ReadString("name", ref name);
+            serializer.ReadString("name", name);
         }
 
         @Override

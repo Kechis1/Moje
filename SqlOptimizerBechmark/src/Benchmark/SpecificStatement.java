@@ -39,8 +39,8 @@
         @Override
         public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
-            serializer.ReadString("provider_name", ref providerName);
-            serializer.ReadBool("not_supported", ref notSupported);
+            serializer.ReadString("provider_name", providerName);
+            serializer.ReadBool("not_supported", notSupported);
             super.LoadFromXml(serializer);
         }
 

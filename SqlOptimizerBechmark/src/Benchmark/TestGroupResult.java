@@ -50,9 +50,9 @@ public class TestGroupResult extends BenchmarkObject {
 
     @Override
     public void LoadFromXml(BenchmarkXmlSerializer serializer) {
-        serializer.ReadInt("test_group_id", ref testGroupId);
-        serializer.ReadString("test_group_number", ref testGroupNumber);
-        serializer.ReadString("test_group_name", ref testGroupName);
+        serializer.ReadInt("test_group_id", testGroupId);
+        serializer.ReadString("test_group_number", testGroupNumber);
+        serializer.ReadString("test_group_name", testGroupName);
     }
 
     @Override

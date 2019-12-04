@@ -26,7 +26,7 @@ public class SpecificStatementList extends StatementList {
 
     @Override
     public void LoadFromXml(BenchmarkXmlSerializer serializer) {
-        serializer.ReadString("provider_name", ref providerName);
+        serializer.ReadString("provider_name", providerName);
         super.LoadFromXml(serializer);
     }
 

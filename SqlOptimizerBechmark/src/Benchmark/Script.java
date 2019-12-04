@@ -1,10 +1,13 @@
 ﻿package Benchmark;
+
+import javafx.collections.*;
+
     public class Script extends BenchmarkObject
     {
         private IBenchmarkObject parentObject;
 
         private StatementList defaultStatementList;
-        private ObservableCollection<SpecificStatementList> specificStatementLists;
+        private ObservableList<SpecificStatementList> specificStatementLists;
         
         @Override
         public IBenchmarkObject ParentObject() {
@@ -25,7 +28,7 @@
             return defaultStatementList;
         }
 
-        public ObservableCollection<SpecificStatementList> SpecificStatementLists()
+        public ObservableList<SpecificStatementList> SpecificStatementLists()
         {
             return specificStatementLists;
         }
@@ -34,7 +37,7 @@
         {
             this.parentObject = parentObject;
             this.defaultStatementList = new StatementList(this);
-            this.specificStatementLists = new ObservableCollection<SpecificStatementList>();
+            this.specificStatementLists = new ObservableList<SpecificStatementList>();
         }
 
         public StatementList GetStatementList(String providerName)

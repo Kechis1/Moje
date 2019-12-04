@@ -111,12 +111,12 @@
         @Override
         public void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
-            serializer.ReadInt("test_id", ref testId);
-            serializer.ReadString("test_number", ref testNumber);
-            serializer.ReadString("test_name", ref testName);
-            serializer.ReadInt("test_group_id", ref testGroupId);
-            serializer.ReadInt("configuration_id", ref configurationId);
-            serializer.ReadString("error_message", ref errorMessage);
+            serializer.ReadInt("test_id", testId);
+            serializer.ReadString("test_number", testNumber);
+            serializer.ReadString("test_name", testName);
+            serializer.ReadInt("test_group_id", testGroupId);
+            serializer.ReadInt("configuration_id", configurationId);
+            serializer.ReadString("error_message", errorMessage);
         }
 
         @Override

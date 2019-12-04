@@ -1,13 +1,16 @@
 ﻿package Benchmark;
-    public class TestGroup extends BenchmarkObject implements IIdentifiedBenchmarkObject, INumberedBenchmarkObject, INamedBenchmarkObject, IDescribedBenchmarkObject
+
+import javafx.collections.ObservableList;
+
+public class TestGroup extends BenchmarkObject implements IIdentifiedBenchmarkObject, INumberedBenchmarkObject, INamedBenchmarkObject, IDescribedBenchmarkObject
     {
         private Benchmark benchmark;
         private int id = 0;
         private String number = "";
         private String name = "";
         private String description = "";
-        private ObservableCollection<Test> tests = new ObservableCollection<Test>();
-        private ObservableCollection<Configuration> configurations = new ObservableCollection<Configuration>();
+        private ObservableList<Test> tests = new ObservableList<Test>();
+        private ObservableList<Configuration> configurations = new ObservableList<Configuration>();
 
         @Override
         public IBenchmarkObject ParentObject() {
@@ -17,7 +20,7 @@
         @Override
         public IEnumerable<IBenchmarkObject> ChildObjects()
         { 
-            for (Test test in tests)
+            for (Test test : tests)
             {
                 yield return test;
             }
@@ -77,12 +80,12 @@
             }
         }
 
-        public ObservableCollection<Test> Tests()
+        public ObservableList<Test> Tests()
         {
             return tests;
         }
 
-        public ObservableCollection<Configuration> Configurations()
+        public ObservableList<Configuration> Configurations()
         {
             return configurations;
         }

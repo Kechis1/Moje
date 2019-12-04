@@ -3,7 +3,7 @@
 public class StatementList extends BenchmarkObject {
     private Script script;
 
-    private ObservableCollection<Statement> statements = new ObservableCollection<Statement>();
+    private ObservableList<Statement> statements = new ObservableList<Statement>();
 
     @Override
     public IBenchmarkObject ParentObject() {
@@ -17,7 +17,7 @@ public class StatementList extends BenchmarkObject {
         }
     }
 
-    public ObservableCollection<Statement> Statements() {
+    public ObservableList<Statement> Statements() {
         return statements;
     }
 

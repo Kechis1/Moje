@@ -31,7 +31,7 @@ public class Statement extends BenchmarkObject {
 
     @Override
     public void LoadFromXml(BenchmarkXmlSerializer serializer) {
-        serializer.ReadString("command_text", ref commandText);
+        serializer.ReadString("command_text", commandText);
     }
 
     @Override
